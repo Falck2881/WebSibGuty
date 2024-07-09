@@ -77,3 +77,91 @@
 .page-nav{
     text-decoration: none;
 }
+
+.content-page{
+    width: 80%;
+    max-width: 1260px;
+    margin-top: 4%;
+    margin-left: 26%;
+    margin-right: 4%;
+    background-color: #dadcdb;
+    opacity: 80%;
+}
+
+.select-filter {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: #a49f90;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6" /></svg>');
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    padding-right: 20px; /* добавляет отступ справа для стрелочки */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 150px;
+    height: 30px;
+    padding-left: 5px;
+    margin: 10px 10px 10px 10px;
+}
+
+.div-table-content{
+    overflow-y: auto;
+    width: 100%; /* или заданная ширина, например, 600px */
+    padding: 10px; /* Поля внутри контейнера */
+    border: 1px solid #ccc; /* Граница контейнера */
+    box-sizing: border-box;
+    height: 700px;
+}
+
+/* Основные стили для таблицы */
+.table-content{
+    width: 100%;
+    border-style:  solid;
+    border-radius: 10px;
+    border-color: #313339;
+    box-sizing: border-box;
+    border-collapse: collapse; /* Убираем промежутки между ячейками */
+}
+
+.th-content, .td-content {
+    padding: 8px;
+    text-align: left; /* Выравнивание текста по левому краю */
+    border-style: solid;
+    border-color: #313339; /* Нижняя граница для ячеек */
+}
+
+/* Стили для мобильных устройств */
+@media screen and (max-width: 600px) {
+    table, thead, tbody, th, td, tr {
+        display: block; /* Делаем все элементы блочными */
+    }
+
+    thead tr {
+        position: absolute; /* Убираем заголовок таблицы за пределы видимости */
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr {
+        border: 1px solid #ccc; /* Граница для строк таблицы */
+    }
+
+    td {
+        border: none; /* Убираем границы ячеек */
+        border-bottom: 1px solid #ccc; /* Добавляем нижнюю границу для ячеек */
+        position: relative; /* Для позиционирования псевдоэлемента */
+        padding-left: 50%; /* Отступ слева для псевдоэлемента */
+    }
+
+    td:before {
+        position: absolute; /* Абсолютное позиционирование псевдоэлемента */
+        top: 6px;
+        left: 6px;
+        width: 45%; /* Ширина псевдоэлемента */
+        padding-right: 10px; /* Отступ справа для псевдоэлемента */
+        white-space: nowrap; /* Запрет на перенос текста */
+        content: attr(data-label); /* Используем атрибут data-label для контента псевдоэлемента */
+        font-weight: bold; /* Делаем текст жирным для лучшей читабельности */
+    }
+}
