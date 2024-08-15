@@ -16,13 +16,15 @@ const navigations = new Array(document.getElementById("nav-user-page"),
                                         document.getElementById("nav-group-page"))
 
 
+// В цикле закрепляем за элементами списка <li> (навигационная панель),
+// события мыши "click" и обработчики которые изменяют содержимое стр. 
 for(let index = 0; index < urls.length; ++index)
 {
         navigations[index].addEventListener("click", function(url, newMethodfill)
         {
             return function(){
-                let selectPage = new Page(newMethodfill);
-                selectPage.loadPage(url);
+                page.setMethodFill(newMethodfill)
+                page.loadPage(url);
             }
         }(urls[index], methodsFill[index]), true);  
 }

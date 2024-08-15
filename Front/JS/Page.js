@@ -22,7 +22,6 @@ export class Page
      */
     loadPage(url)
     {
-        console.log(`Вывод значения ${url}`);
         fetch(url)
         .then(response => {
             if (!response.ok)

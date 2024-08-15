@@ -27,11 +27,9 @@ export function ContentPage()
                     let contentColumn = document.createTextNode(`(${i},${j})`);
                     columnInRow.appendChild(contentColumn);
                     row.appendChild(columnInRow);
-                    console.info(`Column ${j} added to row ${i}`);
                 }
 
                 tbodyUser.appendChild(row);
-                console.info(`Row ${i} added to table`);
             }
         } else {
             console.error("tbody-user element not found");
@@ -57,11 +55,9 @@ export function ContentPage()
                     let contentColumn = document.createTextNode(`(${i},${j})`);
                     columnInRow.appendChild(contentColumn);
                     row.appendChild(columnInRow);
-                    console.info(`Column ${j} added to row ${i}`);
                 }
 
                 tbodyUser.appendChild(row);
-                console.info(`Row ${i} added to table`);
             }
         } else {
             console.error("tbody-groups element not found");
