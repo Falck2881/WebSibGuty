@@ -1,5 +1,5 @@
 <div>
-    <select id="filter_users" class="select-filter" onclick="Click()">
+    <select id="filter_group" class="select-filter" onclick="Click()">
         <option disabled selected>Фильтры</option>
         <option value="Facultet_Name">Наименование Факультета</option>
         <option value="Group_Name">Название Группы</option>
@@ -7,13 +7,13 @@
         <option value="Data_Destroy_Group">Дата Ликвидации Группы</option>
     </select>
 
-    <ul id="filter-data-groups">
+    <ul id="filter-input-group">
     </ul>
 
     <hr/>
 
     <div class="div-table-content">
-        <table class="table-content" id="table-user">
+        <table class="table-content" id="table-group">
             <thead>
                 <tr class="row-headers">
                     <th class="th-content">Наименование Факультета</th>
@@ -22,7 +22,7 @@
                     <th class="th-content">Дата Ликвидации Группы</th>
                 </tr>
             </thead>
-            <tbody id="tbody-groups">
+            <tbody id="tbody-data-group">
             </tbody>
         </table>
     </div>

@@ -14,7 +14,7 @@ export function ContentPage()
      */
     function fillUsersPage()
     {
-        let tbodyUser = document.getElementById("tbody-user");
+        let tbodyUser = document.getElementById("tbody-data-user");
 
         if (tbodyUser != null) {
             for (let i = 0; i < 30; ++i) {
@@ -32,7 +32,7 @@ export function ContentPage()
                 tbodyUser.appendChild(row);
             }
         } else {
-            console.error("tbody-user element not found");
+            console.error("tbody-data-user element not found");
         }
     }
 
@@ -42,7 +42,7 @@ export function ContentPage()
      */
     function fillGroupsPage()
     {
-        let tbodyUser = document.getElementById("tbody-groups");
+        let tbodyUser = document.getElementById("tbody-data-group");
 
         if (tbodyUser != null) {
             for (let i = 0; i < 30; ++i) {
@@ -60,13 +60,42 @@ export function ContentPage()
                 tbodyUser.appendChild(row);
             }
         } else {
-            console.error("tbody-groups element not found");
+            console.error("tbody-data-group element not found");
+        }
+    }
+
+    /**
+     * Заполняет таблицу Факультеты.
+     * По хорошему сюда нужно передать массив сущностей и от туда брать нужные нам данные. ЭТО НЕОБХОДИМО РЕАЛИЗОВАТЬ.
+     */
+    function fillFacultetPage()
+    {
+        let tbodyFacultet = document.getElementById("tbody-data-facultet");
+
+        if (tbodyFacultet != null) {
+            for (let i = 0; i < 30; ++i) {
+                let row = document.createElement("tr");
+                row.className = "tr-content";
+
+                for (let j = 0; j < 2; ++j) {
+                    let columnInRow = document.createElement("td");
+                    columnInRow.className = "td-content";
+                    let contentColumn = document.createTextNode(`(${i},${j})`);
+                    columnInRow.appendChild(contentColumn);
+                    row.appendChild(columnInRow);
+                }
+
+                tbodyFacultet.appendChild(row);
+            }
+        } else {
+            console.error("tbody-data-facultet element not found");
         }
     }
     
 
     return {
         fillUsersPage: fillUsersPage,
-        fillGroupsPage: fillGroupsPage
+        fillGroupsPage: fillGroupsPage,
+        fillFacultetPage: fillFacultetPage
     };
 }
