@@ -13,11 +13,38 @@ export class Page
     constructor(newMethodfill)
     {
         if (typeof newMethodfill === 'function')
-            this._fill = newMethodfill; 
+        {
+            this._fill = newMethodfill;
+            this._contentPage = new Array();
+        }
     }
 
     /**
-     * Загружает содержимое страницы по переданному url
+     * Загружает содержимое страницы
+     * @param {string} url 
+     */
+    loadContentPage(url)
+    {
+        fetch(url)
+        .then(response => 
+        {
+            if(!response.ok)
+                throw new Error("Network responce was not ok");
+
+            return response.json();
+        })
+        .then(data => 
+        {
+            console.log('Users received from server:', data);
+            this._contentPage = data;
+        })
+        .catch(error =>{
+            console.error('There was a problem with your fetch operation:', error);
+        });
+    }
+
+    /**
+     * Загружает страницы по переданному url
      * @param {string} url 
      */
     loadPage(url)
