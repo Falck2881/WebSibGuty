@@ -9,8 +9,4 @@ public class Application
     public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults( builder => builder.UseStartup<Startup>());
 
-    public void Foo()
-    {
-        
-    }
 }

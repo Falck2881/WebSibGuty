@@ -17,15 +17,19 @@ export class Page
             this._fill = newMethodfill;
             this._contentPage = new Array();
         }
+
+        this._hostName = "http://localhost:5188/";
     }
 
     /**
      * Загружает содержимое страницы
      * @param {string} url 
      */
-    loadContentPage(url)
+    async loadContentPage(url)
     {
-        fetch(url)
+        var str = this._hostName + url;
+        console.log(str);
+        await fetch(str)
         .then(response => 
         {
             if(!response.ok)
@@ -47,9 +51,9 @@ export class Page
      * Загружает страницы по переданному url
      * @param {string} url 
      */
-    loadPage(url)
+    async loadPage(url)
     {
-        fetch(url)
+        await fetch(url)
         .then(response => {
             if (!response.ok)
                 throw new Error("Network response was not ok");

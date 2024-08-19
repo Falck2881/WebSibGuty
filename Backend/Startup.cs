@@ -12,6 +12,15 @@ public class Startup
             services.AddSingleton<IFacultetContext, FacultetContext>();
             services.AddHttpClient();
             services.AddControllers();
+            services.AddAntiforgery();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                builder => builder.WithOrigins("http://127.0.0.1:5088") // Порт вашего фронтенда
+                                    .AllowAnyMethod()
+                                    .AllowAnyHeader());
+            });
             
             /// <summary>
             /// // !!! Конфигурируем обработку пересылаемых заголовков запросов
@@ -31,12 +40,19 @@ public class Startup
         // Также здесь определяються контроллеры. 
         public void Configure(IApplicationBuilder applicationBuilder)
         {
-            applicationBuilder.UseRouting();
-
             applicationBuilder.UseHttpsRedirection();
             // !!! Добавляем в конвеер обработки HTTP-запроса компонент работы с пересылаемыми заголовками
             applicationBuilder.UseForwardedHeaders();
             applicationBuilder.UseStaticFiles();
+
+            applicationBuilder.UseCors("AllowSpecificOrigin");
+
+            applicationBuilder.UseRouting();
             applicationBuilder.UseAntiforgery();
+
+            applicationBuilder.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
 }
