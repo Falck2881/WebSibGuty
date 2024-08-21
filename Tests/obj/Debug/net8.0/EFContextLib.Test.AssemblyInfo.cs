@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EFContextLib.Test")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cb91bcaec711ccf393738b7ae8d0f12157585403")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bee2b52551e77bc879bde25d838137da15bd82ac")]
 [assembly: System.Reflection.AssemblyProductAttribute("EFContextLib.Test")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EFContextLib.Test")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

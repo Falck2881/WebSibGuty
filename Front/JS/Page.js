@@ -1,5 +1,7 @@
 "use strict";
 //@ts-check
+import {UserModelDto} from "./Entities.js";
+
 
 /**
  * Этот класс служит общей абстракцией по работе с содержимым страницей
@@ -62,7 +64,7 @@ export class Page
         })
         .then(data => {
             document.getElementById("content").innerHTML = data;
-            this._fill();
+            this._fill(this._contentPage);
         })
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);

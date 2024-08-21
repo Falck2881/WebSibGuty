@@ -41,4 +41,7 @@ public class UserModel
 
     [Column("avarangescore")]
     public Int32 AvarangeScore {get; set;}
+
+    [Column("typename")]
+    public String TypeName {get; set;} = null!;
 }

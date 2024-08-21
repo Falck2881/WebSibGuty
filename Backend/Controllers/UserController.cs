@@ -14,10 +14,12 @@ public class UserController: Controller
     }
 
     [HttpGet]
-    [Route("All")]
+    [Route("MainTable/Content")]
     public async Task<IActionResult> GetUsers()
     {
-        var users = await _userContext.FindAll().ToListAsync();
+        var users = await _userContext.FindAll().Select(user => new 
+            { user.FirstName, user.LastName, user.Gender, user.DataBirth, user.PhoneNumber, user.CashSize, user.Military} )
+            .ToListAsync();
 
         return Ok(users);
     }

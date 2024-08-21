@@ -6,11 +6,12 @@ import {Page} from "./Page.js"
 var action = new ContentPage();
 let page = new Page(action.fillUsersPage);
 
+await page.loadContentPage("Users/MainTable/Content");
 page.loadPage("Pages/Users.html");
 
 const urlsPage = new Array("Pages/Users.html", "Pages/Groups.html", "Pages/Facultets.html");
 
-const urlsContentPage = new Array("Users/All", "Groups/All", "Facultets/All");
+const urlsContentPage = new Array("Users/MainTable/Content", "Groups/All", "Facultets/All");
 
 const methodsFill = new Array(action.fillUsersPage, action.fillGroupsPage, action.fillFacultetPage);
 

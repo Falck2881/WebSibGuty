@@ -1,5 +1,6 @@
 "use strict";
 //@ts-check
+import { UserModelDto } from "./Entities.js";
 
 /**
  * 
@@ -10,21 +11,26 @@ export function ContentPage()
 
     /**
      * Заполняет таблицу пользователей данными. 
-     * По хорошему сюда нужно передать массив сущностей и от туда брать нужные нам данные. ЭТО НЕОБХОДИМО РЕАЛИЗОВАТЬ.
+     * @param {Array<UserModelDto>} content 
      */
-    function fillUsersPage()
+    function fillUsersPage(content)
     {
         let tbodyUser = document.getElementById("tbody-data-user");
 
         if (tbodyUser != null) {
-            for (let i = 0; i < 30; ++i) {
+            for (let i = 0; i < content.length; ++i) 
+            {
                 let row = document.createElement("tr");
                 row.className = "tr-content";
+                
+                let user = Array.of(content[i].firstName, content[i].lastName,
+                    content[i].gender, content[i].dataBirth, content[i].phoneNumber, content[i].cashSize,
+                    content[i].military);
 
                 for (let j = 0; j < 7; ++j) {
                     let columnInRow = document.createElement("td");
                     columnInRow.className = "td-content";
-                    let contentColumn = document.createTextNode(`(${i},${j})`);
+                    let contentColumn = document.createTextNode(user[j]);
                     columnInRow.appendChild(contentColumn);
                     row.appendChild(columnInRow);
                 }
@@ -40,7 +46,7 @@ export function ContentPage()
      * Заполняет таблицу группы данными.
      * По хорошему сюда нужно передать массив сущностей и от туда брать нужные нам данные. ЭТО НЕОБХОДИМО РЕАЛИЗОВАТЬ.
      */
-    function fillGroupsPage()
+    function fillGroupsPage(content)
     {
         let tbodyUser = document.getElementById("tbody-data-group");
 
@@ -68,7 +74,7 @@ export function ContentPage()
      * Заполняет таблицу Факультеты.
      * По хорошему сюда нужно передать массив сущностей и от туда брать нужные нам данные. ЭТО НЕОБХОДИМО РЕАЛИЗОВАТЬ.
      */
-    function fillFacultetPage()
+    function fillFacultetPage(content)
     {
         let tbodyFacultet = document.getElementById("tbody-data-facultet");
 
