@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "Jl2hxWu9stWNqaGdWEEKVqbFGf8EKt/UsmZhVlroEkd4w3o8p8F3tbBequc0vOoLxrtsWBh1gHoe05yK9E3jWQ==",
+  "dgSpecHash": "S0Fultof0KBkhUQiMJC7J7gAWlQYgaSMOGHMviR6pqxBIoc/8IRmE2Q+r1m+V6YO6BOB9tAyHNqg6VMzZIqetw==",
   "success": true,
   "projectFilePath": "/home/falcon/ProjectC#/WebSibGuty/Backend/Backend.csproj",
   "expectedPackageFiles": [
@@ -21,7 +21,7 @@
     "/home/falcon/.nuget/packages/microsoft.openapi/1.4.3/microsoft.openapi.1.4.3.nupkg.sha512",
     "/home/falcon/.nuget/packages/npgsql/8.0.3/npgsql.8.0.3.nupkg.sha512",
     "/home/falcon/.nuget/packages/npgsql.entityframeworkcore.postgresql/8.0.4/npgsql.entityframeworkcore.postgresql.8.0.4.nupkg.sha512",
-    "/home/falcon/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.8/microsoft.netcore.app.host.linux-x64.8.0.8.nupkg.sha512"
+    "/home/falcon/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.10/microsoft.netcore.app.host.linux-x64.8.0.10.nupkg.sha512"
   ],
   "logs": []
 }

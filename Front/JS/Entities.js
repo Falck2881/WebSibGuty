@@ -5,19 +5,47 @@ export class UserModelDto
 {
     constructor()
     {
-        this.firstName = "";
+        this.Id = "";
 
-        this.lastName = "";
+        this.FirstName = "";
 
-        this.gender = "";
+        this.LastName = "";
 
-        this.dataBirth = "";
+        this.Gender = "";
 
-        this.phoneNumber = "";
+        this.DataBirth = "";
 
-        this.cashSize = "";
+        this.PhoneNumber = "";
 
-        this.military = "";
+        this.CashSize = "";
 
+        this.Military = "";
+
+    }
+}
+
+export class GroupModelDto
+{
+    constructor()
+    {
+        this.FacultetName = "";
+
+        this.GroupName = "";
+
+        this.GroupCreateData = "";
+
+        this.GroupDeleteData = "";
+    }
+}
+
+export class FacultetModelDto
+{
+    constructor()
+    {
+        this.Id = "";
+        
+        this.FacultetName = "";
+        
+        this.Dean = "";
     }
 }

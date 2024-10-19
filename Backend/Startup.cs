@@ -11,15 +11,20 @@ public class Startup
             services.AddSingleton<IGroupContext, GroupContext>();
             services.AddSingleton<IFacultetContext, FacultetContext>();
             services.AddHttpClient();
-            services.AddControllers();
+            services.AddControllers()
+                .AddJsonOptions(option => option.JsonSerializerOptions.PropertyNamingPolicy = null);
+                
             services.AddAntiforgery();
 
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowSpecificOrigin",
-                builder => builder.WithOrigins("http://127.0.0.1:5088") // Порт вашего фронтенда
-                                    .AllowAnyMethod()
-                                    .AllowAnyHeader());
+                options.AddPolicy("AllowAll",
+                    builder =>
+                    {
+                        builder.WithOrigins("http://127.0.0.1:8000")
+                            .AllowAnyMethod()
+                            .AllowAnyHeader();
+                    });
             });
             
             /// <summary>
@@ -45,7 +50,7 @@ public class Startup
             applicationBuilder.UseForwardedHeaders();
             applicationBuilder.UseStaticFiles();
 
-            applicationBuilder.UseCors("AllowSpecificOrigin");
+            applicationBuilder.UseCors("AllowAll");
 
             applicationBuilder.UseRouting();
             applicationBuilder.UseAntiforgery();

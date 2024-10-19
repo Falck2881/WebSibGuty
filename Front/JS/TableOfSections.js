@@ -1,19 +1,19 @@
 "use strict";
 //@ts-check
-import { UserModelDto } from "./Entities.js";
+import {UserModelDto, GroupModelDto, FacultetModelDto } from "./Entities.js";
 
 /**
  * 
- * @returns Возвращает действие которое заполняет содержимое страницы
+ * @returns Возвращает действие которое заполняет содержимое таблицы
  */
-export function ContentPage()
+export function TableOfSections()
 {
 
     /**
      * Заполняет таблицу пользователей данными. 
      * @param {Array<UserModelDto>} content 
      */
-    function fillUsersPage(content)
+    async function fillUsersTable(content)
     {
         let tbodyUser = document.getElementById("tbody-data-user");
 
@@ -23,9 +23,11 @@ export function ContentPage()
                 let row = document.createElement("tr");
                 row.className = "tr-content";
                 
-                let user = Array.of(content[i].firstName, content[i].lastName,
-                    content[i].gender, content[i].dataBirth, content[i].phoneNumber, content[i].cashSize,
-                    content[i].military);
+                let user = Array.of(content[i].FirstName, content[i].LastName,
+                    content[i].Gender, content[i].DataBirth, content[i].PhoneNumber, content[i].CashSize,
+                    content[i].Military);
+
+                user.forEach(data => console.log(`Name - ${data}, `));
 
                 for (let j = 0; j < 7; ++j) {
                     let columnInRow = document.createElement("td");
@@ -43,22 +45,25 @@ export function ContentPage()
     }
 
     /**
-     * Заполняет таблицу группы данными.
-     * По хорошему сюда нужно передать массив сущностей и от туда брать нужные нам данные. ЭТО НЕОБХОДИМО РЕАЛИЗОВАТЬ.
+     * Заполняет таблицу "Группы" данными.
+     * @param {Array<GroupModelDto>} content 
      */
-    function fillGroupsPage(content)
+    async function fillGroupsTable(content)
     {
         let tbodyUser = document.getElementById("tbody-data-group");
 
         if (tbodyUser != null) {
-            for (let i = 0; i < 30; ++i) {
+            for (let i = 0; i < content.length; ++i) {
                 let row = document.createElement("tr");
                 row.className = "tr-content";
+
+                let groups = Array.of(content[i].FacultetName, content[i].GroupName, 
+                    content[i].GroupCreateData, content[i].GroupDeleteData);
 
                 for (let j = 0; j < 4; ++j) {
                     let columnInRow = document.createElement("td");
                     columnInRow.className = "td-content";
-                    let contentColumn = document.createTextNode(`(${i},${j})`);
+                    let contentColumn = document.createTextNode(groups[j]);
                     columnInRow.appendChild(contentColumn);
                     row.appendChild(columnInRow);
                 }
@@ -72,21 +77,23 @@ export function ContentPage()
 
     /**
      * Заполняет таблицу Факультеты.
-     * По хорошему сюда нужно передать массив сущностей и от туда брать нужные нам данные. ЭТО НЕОБХОДИМО РЕАЛИЗОВАТЬ.
+     * @param {Array<FacultetModelDto>} content 
      */
-    function fillFacultetPage(content)
+    async function fillFacultetTable(content)
     {
         let tbodyFacultet = document.getElementById("tbody-data-facultet");
 
         if (tbodyFacultet != null) {
-            for (let i = 0; i < 30; ++i) {
+            for (let i = 0; i < content.length; ++i) {
                 let row = document.createElement("tr");
                 row.className = "tr-content";
+
+                let facultet = Array.of(content[i].FacultetName, content[i].Dean);
 
                 for (let j = 0; j < 2; ++j) {
                     let columnInRow = document.createElement("td");
                     columnInRow.className = "td-content";
-                    let contentColumn = document.createTextNode(`(${i},${j})`);
+                    let contentColumn = document.createTextNode(facultet[j]);
                     columnInRow.appendChild(contentColumn);
                     row.appendChild(columnInRow);
                 }
@@ -100,8 +107,8 @@ export function ContentPage()
     
 
     return {
-        fillUsersPage: fillUsersPage,
-        fillGroupsPage: fillGroupsPage,
-        fillFacultetPage: fillFacultetPage
+        fillUsersTable: fillUsersTable,
+        fillGroupsTable: fillGroupsTable,
+        fillFacultetTable: fillFacultetTable
     };
 }

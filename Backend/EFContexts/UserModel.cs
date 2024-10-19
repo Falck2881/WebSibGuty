@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class UserModel
 {
     [Column("id")]
-    public String id {get; set;}
+    public String Id {get; set;} = null!;
 
     [Column("login")]
     public String Login {get; set;} = null!;

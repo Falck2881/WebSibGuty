@@ -106,7 +106,7 @@
 }
 
 .div-table-content{
-    overflow-y: auto;
+    overflow-y: scroll;
     width: 100%; /* или заданная ширина, например, 600px */
     padding: 10px; /* Поля внутри контейнера */
     border: 1px solid #ccc; /* Граница контейнера */
