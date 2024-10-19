@@ -28,6 +28,8 @@ export class GroupModelDto
 {
     constructor()
     {
+        this.Id = "";
+        
         this.FacultetName = "";
 
         this.GroupName = "";

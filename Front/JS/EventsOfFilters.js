@@ -17,16 +17,16 @@ async function findByFiltersOfUsers()
 
     await userSelectedFilters.saveSelectedOfValuesFromSwitches();
 
-    //const controllerName = "/api/user/table/filtered_content";
+    //const controllerName = "/api/user/table/filtered_users_content";
 
-    const controllerName = "http://localhost:5188/api/user/table/filtered_content";
+    const controllerName = "http://localhost:5188/api/user/table/filtered_users_content";
 
     const requestInit = {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(userSelectedFilters.toJSON())
+        body: JSON.stringify(userSelectedFilters.toUserModelDto())
     };
 
     const resultSelectionByFilter = await fetch(controllerName, requestInit);
@@ -50,5 +50,7 @@ async function findByFiltersOfUsers()
             console.error(`${error.message} | Код ошибки: ${resultSelectionByFilter.status}`);
     }
 }
+
+
 
 window.findByFiltersOfUsers = findByFiltersOfUsers;

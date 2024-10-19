@@ -5,7 +5,9 @@ import {UserModelDto} from "./Entities.js"
 import {NullReferenceOfObjectError} from "./CommonException.js"
 
 /**
- *  DTO объект который содержит выбранные фильтры в разделе Пользователи
+ *  Класс выполняет:
+ *  - хранение выбранных/введённых значений в фильтрах
+ *  - поиск всех фильтров в разделе - Пользователи
  */
 export class UserFilter
 {
@@ -26,7 +28,7 @@ export class UserFilter
      * 
      * @returns {UserModelDto} Возвращает DTO объект данного класса
      */
-    toJSON()
+    toUserModelDto()
     {
         let userFilterDto = new UserModelDto;
 
@@ -43,55 +45,55 @@ export class UserFilter
      */
     async saveSelectedOfValuesFromSwitches()
     {
-        let ulFilters = document.getElementById("selected-filter-Of-section");
+        let ulFiltersInUserSection = document.getElementById("selected-filter-Of-section");
 
-        if (ulFilters == null)
-            throw new NullReferenceOfObjectError(ulFilters, "HTML тег <ul> под id - selected-filter-Of-section, не был найден.");
+        if (ulFiltersInUserSection == null)
+            throw new NullReferenceOfObjectError(ulFiltersInUserSection, "HTML тег <ul> под id - selected-filter-Of-section, не был найден.");
 
         // Поиск фильтра с выбранным значением - по группе "Filter_User_Gender" 
-        let selectGenderFilter = ulFilters.querySelector('input[name="Filter_User_Gender"]:checked');
+        let selectGenderFilter = ulFiltersInUserSection.querySelector('input[name="Filter_User_Gender"]:checked');
 
         if (selectGenderFilter != null)
         {
-            console.log(`Filter_User_Gender = ${selectGenderFilter.value}`);
+            console.log(`Filter_User_Gender - ${selectGenderFilter.value}`);
             this.#Gender = selectGenderFilter.value;
         }
 
         // Поиск фильтра с выбранным значением - по группе "Filter_User_Military" 
-        let selectMilitaryFilter = ulFilters.querySelector('input[name="Filter_User_Military"]:checked');
+        let selectMilitaryFilter = ulFiltersInUserSection.querySelector('input[name="Filter_User_Military"]:checked');
 
         if (selectMilitaryFilter != null)
         {
-            console.log(`Filter_User_Military = ${selectMilitaryFilter.value}`);
+            console.log(`Filter_User_Military - ${selectMilitaryFilter.value}`);
             this.#Military = selectMilitaryFilter.value;
         }
     }
 
     /**
-    * Сохроняет введённые значения из полей ввода 
+    * Сохроняет введённые значения из полей ввода типа - text
     */
     async saveInputsOfValuesFromFieldsOfInput()
     {
-        let ulFilters = document.getElementById("selected-filter-Of-section");
+        let ulFiltersInUserSection = document.getElementById("selected-filter-Of-section");
 
-        if (ulFilters == null)
-            throw new NullReferenceOfObjectError(ulFilters, "HTML тег <ul> под id - selected-filter-Of-section, не был найден.");
+        if (ulFiltersInUserSection == null)
+            throw new NullReferenceOfObjectError(ulFiltersInUserSection, "HTML тег <ul> под id - selected-filter-Of-section, не был найден.");
 
         // Поиск фильтра с введённой строкой - по id
-        let firstNameFilter = ulFilters.querySelector('input[id="one_Filter_FirstName"]');
+        let firstNameFilter = ulFiltersInUserSection.querySelector('input[id="one_Filter_FirstName"]');
 
         if (firstNameFilter != null)
         {
-            console.log(`one_Filter_FirstName ${firstNameFilter.value}`);
+            console.log(`one_Filter_FirstName - ${firstNameFilter.value}`);
             this.#FirstName = firstNameFilter.value;
         }
 
         // Поиск фильтра с введённой строкой - по id
-        let lastNameFilter = ulFilters.querySelector('input[id="two_Filter_LastName"]'); 
+        let lastNameFilter = ulFiltersInUserSection.querySelector('input[id="two_Filter_LastName"]'); 
 
         if (lastNameFilter != null)
         {
-            console.log(`two_Filter_LastName ${lastNameFilter.value}`);
+            console.log(`two_Filter_LastName - ${lastNameFilter.value}`);
             this.#LastName = lastNameFilter.value;
         }
     }
