@@ -40,7 +40,7 @@ public class GroupController: Controller
     /// <param name="group">Модель DTO в которой передаём выбранные/введённые значения из фильтров</param>
     /// <returns>Список DTO моделей <see cref="GroupModelDto"/></returns>
     [HttpPost]
-    [Route("tabel/filtered_groups_content")]
+    [Route("table/filtered_groups_content")]
     public async Task<IActionResult> GetFilteredGroupsContent([FromBody] GroupModelDto group)
     {        
         var filter = new Filter(new GroupFilterOut(_groupContext, _facultetContext));
