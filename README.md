@@ -1,7 +1,9 @@
-![Screenshot from 2024-11-04 13-22-42](https://github.com/user-attachments/assets/98fcd20c-7554-42c2-b5d1-467fd1695d17)# WebSibGuty
+# WebSibGuty
 Задача проекта: веб приложение должно выполнять удобный поиск информации по пользователям внутри вуза. 
 Пользователями являются: Студенты, преподаватели, ректоры, гости 
 На данный момент проект находится в фазе разработки и проходит доработку внутренней системы.
+
+![Screenshot from 2024-11-04 13-22-42](https://github.com/user-attachments/assets/98fcd20c-7554-42c2-b5d1-467fd1695d17)
 
 # Что сейчас реализовано ?
 
@@ -10,6 +12,7 @@
 ![Screenshot from 2024-11-04 13-22-42](https://github.com/user-attachments/assets/613ce6a9-9625-4389-b89e-f52b145db464)
 
 - 3 раздела: пользователи, группы, факультеты
+
 ![Screenshot from 2024-11-04 13-24-24](https://github.com/user-attachments/assets/cf6c4663-f65d-4c6c-bc0e-61f345c98d78)
 
 - Таблицы с искомой информацией по разделу
