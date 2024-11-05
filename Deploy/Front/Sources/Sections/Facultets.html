@@ -1,0 +1,35 @@
+<div>
+    <div class="filter-container">
+        <div class="multiselect">
+            <div class="selectBox" onclick="showCheckboxes()">
+                <select>
+                    <option>Фильтры</option>
+                </select>
+                <div class="overSelect"></div>
+            </div>
+            <div class="filter_checkboxes" id="filters_section">
+                <label for="one">
+                    <input type="checkbox" id="one" value="Filter_FacultetName"/>Наименование Факультета</label>
+                <label for="two">
+                    <input type="checkbox" id="two" value="Filter_NameDean"/>Имя декана</label>
+            </div>
+        </div>
+        <button class="find-by-filters" onclick="findByFiltersOfFacultets()"></button>
+        <ul class="select-filters" id="selected-filter-Of-section"></ul>
+    </div>
+
+    <hr/>
+
+    <div class="div-table-content">
+        <table class="table-content" id="table-facultet">
+            <thead>
+                <tr class="row-headers">
+                    <th class="th-content">Наименование Факультета</th>
+                    <th class="th-content">Имя Декана</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-data-facultet">
+            </tbody>
+        </table>
+    </div>
+</div>

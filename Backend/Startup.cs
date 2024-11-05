@@ -18,14 +18,17 @@ public class Startup
 
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowAll",
+                // Для разработки
+                options.AddPolicy("AllowSpecificOrigin",
                     builder =>
                     {
-                        builder.WithOrigins("http://127.0.0.1:8000")
+                        builder.WithOrigins("http://127.0.0.1:8001", "http://127.0.0.1:8000", "http://localhost:8000", "http://front:5088",
+                                            "malpbt83.ru", "www.malpbt83.ru", "http://front_dep:5088")
                             .AllowAnyMethod()
                             .AllowAnyHeader();
                     });
             });
+            
             
             /// <summary>
             /// // !!! Конфигурируем обработку пересылаемых заголовков запросов
@@ -45,12 +48,12 @@ public class Startup
         // Также здесь определяються контроллеры. 
         public void Configure(IApplicationBuilder applicationBuilder)
         {
-            applicationBuilder.UseHttpsRedirection();
+            //applicationBuilder.UseHttpsRedirection();
             // !!! Добавляем в конвеер обработки HTTP-запроса компонент работы с пересылаемыми заголовками
             applicationBuilder.UseForwardedHeaders();
             applicationBuilder.UseStaticFiles();
 
-            applicationBuilder.UseCors("AllowAll");
+            applicationBuilder.UseCors("AllowSpecificOrigin");
 
             applicationBuilder.UseRouting();
             applicationBuilder.UseAntiforgery();

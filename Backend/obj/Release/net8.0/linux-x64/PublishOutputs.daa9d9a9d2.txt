@@ -1,0 +1,16 @@
+/home/falcon/ProjectC#/WebSibGuty/Deploy/Backend/Release/Backend
+/home/falcon/ProjectC#/WebSibGuty/Deploy/Backend/Release/appsettings.Development.json
+/home/falcon/ProjectC#/WebSibGuty/Deploy/Backend/Release/appsettings.json
+/home/falcon/ProjectC#/WebSibGuty/Deploy/Backend/Release/ConnectBaseData.json
+/home/falcon/ProjectC#/WebSibGuty/Deploy/Backend/Release/EFContexts/ConnectBaseData.json
+/home/falcon/ProjectC#/WebSibGuty/Deploy/Backend/Release/Backend.dll
+/home/falcon/ProjectC#/WebSibGuty/Deploy/Backend/Release/Backend.deps.json
+/home/falcon/ProjectC#/WebSibGuty/Deploy/Backend/Release/Backend.runtimeconfig.json
+/home/falcon/ProjectC#/WebSibGuty/Deploy/Backend/Release/Backend.pdb
+/home/falcon/ProjectC#/WebSibGuty/Deploy/Backend/Release/Microsoft.AspNetCore.OpenApi.dll
+/home/falcon/ProjectC#/WebSibGuty/Deploy/Backend/Release/Microsoft.EntityFrameworkCore.dll
+/home/falcon/ProjectC#/WebSibGuty/Deploy/Backend/Release/Microsoft.EntityFrameworkCore.Abstractions.dll
+/home/falcon/ProjectC#/WebSibGuty/Deploy/Backend/Release/Microsoft.EntityFrameworkCore.Relational.dll
+/home/falcon/ProjectC#/WebSibGuty/Deploy/Backend/Release/Microsoft.OpenApi.dll
+/home/falcon/ProjectC#/WebSibGuty/Deploy/Backend/Release/Npgsql.dll
+/home/falcon/ProjectC#/WebSibGuty/Deploy/Backend/Release/Npgsql.EntityFrameworkCore.PostgreSQL.dll

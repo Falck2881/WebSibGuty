@@ -1,0 +1,7 @@
+/home/falcon/ProjectC#/WebSibGuty/Tests/bin/Release/net8.0/CoverletSourceRootsMapping_EFContextLib.Test
+/home/falcon/ProjectC#/WebSibGuty/Tests/obj/Release/net8.0/EFContextLib.Test.csproj.AssemblyReference.cache
+/home/falcon/ProjectC#/WebSibGuty/Tests/obj/Release/net8.0/EFContextLib.Test.GeneratedMSBuildEditorConfig.editorconfig
+/home/falcon/ProjectC#/WebSibGuty/Tests/obj/Release/net8.0/EFContextLib.Test.AssemblyInfoInputs.cache
+/home/falcon/ProjectC#/WebSibGuty/Tests/obj/Release/net8.0/EFContextLib.Test.AssemblyInfo.cs
+/home/falcon/ProjectC#/WebSibGuty/Tests/obj/Release/net8.0/EFContextLib.Test.csproj.CoreCompileInputs.cache
+/home/falcon/ProjectC#/WebSibGuty/Tests/obj/Release/net8.0/EFContextLib.Test.sourcelink.json

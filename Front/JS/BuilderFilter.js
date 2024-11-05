@@ -130,7 +130,9 @@ export class BuilderFilter
 
             inputMen.type = "radio";
             inputMen.id = "men_filter";
+            // Значение которое получим из этого фильтра
             inputMen.value = "Мужчина";
+            // Поиск выбранного значения осуществляется по имени кнопки 
             inputMen.name = "Filter_User_Gender";
             labelMen.appendChild(inputMen);
 
@@ -146,7 +148,9 @@ export class BuilderFilter
 
             inputWomen.type = "radio";
             inputWomen.id = "women_filter";
+            // Значение которое получим из этого фильтра
             inputWomen.value = "Женщина";
+            // Поиск выбранного значения осуществляется по имени кнопки 
             inputWomen.name = "Filter_User_Gender";
             labelWomen.appendChild(inputWomen);
 
@@ -165,7 +169,9 @@ export class BuilderFilter
 
             inputFreeByMilitary.type = "radio";
             inputFreeByMilitary.id = "military_filter";
+            // Значение которое получим из этого фильтра
             inputFreeByMilitary.value = "Освобождён от военной службы";
+            // Поиск выбранного значения осуществляется по имени кнопки 
             inputFreeByMilitary.name = "Filter_User_Military";
             labelFreeByMilitary.appendChild(inputFreeByMilitary);
 
@@ -180,7 +186,9 @@ export class BuilderFilter
 
             inputFreeByMilitary_1.type = "radio";
             inputFreeByMilitary_1.id = "military_filter_1";
+            // Значение которое получим из этого фильтра
             inputFreeByMilitary_1.value = "Военнообязан";
+            // Поиск выбранного значения осуществляется по имени кнопки 
             inputFreeByMilitary_1.name = "Filter_User_Military";
             labelFreeByMilitary_1.appendChild(inputFreeByMilitary_1);
 
@@ -195,7 +203,9 @@ export class BuilderFilter
 
             inputFreeByMilitary_2.type = "radio";
             inputFreeByMilitary_2.id = "military_filter_2";
+            // Значение которое получим из этого фильтра
             inputFreeByMilitary_2.value = "Бронь";
+            // Поиск выбранного значения осуществляется по имени кнопки 
             inputFreeByMilitary_2.name = "Filter_User_Military";
             labelFreeByMilitary_2.appendChild(inputFreeByMilitary_2);
 
@@ -203,6 +213,64 @@ export class BuilderFilter
 
             fieldsetFilter.appendChild(labelFreeByMilitary_2);
 
+            return;
+        }
+        else if(filter.value === "Filter_CashSize")
+        {
+            let inputCashSize = document.createElement("input");
+            let labelCashSize = document.createElement("label");
+
+            inputCashSize.type = "radio";
+            inputCashSize.id = "cash_size_0";
+            // Значение которое получим из этого фильтра
+            inputCashSize.value = "1000";
+            // Поиск выбранного значения осуществляется по имени кнопки 
+            inputCashSize.name = "Filter_User_CashSize";
+            labelCashSize.appendChild(inputCashSize);
+
+            labelCashSize.appendChild(document.createTextNode("До 1000 руб."));
+
+            fieldsetFilter.appendChild(labelCashSize);
+
+            let inputCashSize_1 = document.createElement("input");
+            let labelCashSize_1 = document.createElement("label");
+            
+            inputCashSize_1.type = "radio";
+            inputCashSize_1.id = "cash_size_1";
+            inputCashSize_1.value = "5000";
+            inputCashSize_1.name = "Filter_User_CashSize";
+            labelCashSize_1.appendChild(inputCashSize_1);
+
+            labelCashSize_1.appendChild(document.createTextNode("До 5000 руб."));
+
+            fieldsetFilter.appendChild(labelCashSize_1);
+
+            let inputCashSize_2 = document.createElement("input");
+            let labelCashSize_2 = document.createElement("label");
+
+            inputCashSize_2.type = "radio";
+            inputCashSize_2.id = "cash_size_2";
+            inputCashSize_2.value = "10000";
+            inputCashSize_2.name = "Filter_User_CashSize";
+            labelCashSize_2.appendChild(inputCashSize_2);
+
+            labelCashSize_2.appendChild(document.createTextNode("До 10000 руб."));
+
+            fieldsetFilter.appendChild(labelCashSize_2);
+
+            let inputCashSize_3 = document.createElement("input");
+            let labelCashSize_3 = document.createElement("label");
+
+            inputCashSize_3.type = "radio";
+            inputCashSize_3.id = "cash_size_3";
+            inputCashSize_3.value = "100000";
+            inputCashSize_3.name = "Filter_User_CashSize";
+            labelCashSize_3.appendChild(inputCashSize_3);
+
+            labelCashSize_3.appendChild(document.createTextNode("Больше 10000 руб."));
+
+            fieldsetFilter.appendChild(labelCashSize_3);
+            
             return;
         }
         

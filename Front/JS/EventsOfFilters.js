@@ -26,8 +26,10 @@ async function findByFiltersOfUsers()
         if (exception instanceof NullReferenceOfObjectError)
             console.error(`ERROR: ${exception.message}`);
     }
-    //const controllerName = "/api/user/table/filtered_users_content";
 
+    // Для деплоя 
+    // const controllerName = "/api/user/table/filtered_users_content";
+    // Для разработки
     const controllerName = "http://localhost:5188/api/user/table/filtered_users_content";
 
     const requestInit = {
@@ -78,7 +80,9 @@ async function findByFiltersOfGroups()
             console.error(`ERROR: ${exception.message}`);
     }
 
-    //const controllerName = "/api/group/table/filtered_groups_content";
+    // Для деплоя 
+    // const controllerName = "/api/group/table/filtered_groups_content";
+    // Для разработки
     const controllerName = "http://localhost:5188/api/group/table/filtered_groups_content"
 
     const requestInit = {
@@ -129,7 +133,9 @@ async function findByFiltersOfFacultets()
             console.error(`ERROR: ${exception.message}`);
     }
 
+    // Для деплоя 
     //const controllerName = "/api/facultet/table/filtered_facultets_content";
+    // Для разработки
     const controllerName = "http://localhost:5188/api/facultet/table/filtered_facultets_content"
 
     const requestInit = {
