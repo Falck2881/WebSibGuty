@@ -30,10 +30,13 @@ public sealed class UsersFilterOut: IFilterOut
 
         var users = await context.FindAll().AsNoTracking().ToListAsync();
 
+        // Проверяем своёства всей DTO сущности которая пришла с фронта.
+        // Значение каждого свойства это значение выбранное/введённое в фильтре на фронте.
         resultOfSelecion = users.Where( dbUser => (string.IsNullOrEmpty(userFilter.Gender) || dbUser.Gender.Equals(userFilter.Gender)) && 
                                         (string.IsNullOrEmpty(userFilter.Military) || dbUser.Military.Equals(userFilter.Military)) &&
                                         (string.IsNullOrEmpty(userFilter.FirstName) || dbUser.FirstName.Equals(userFilter.FirstName)) &&
-                                        (string.IsNullOrEmpty(userFilter.LastName) || dbUser.LastName.Equals(userFilter.LastName)))
+                                        (string.IsNullOrEmpty(userFilter.LastName) || dbUser.LastName.Equals(userFilter.LastName)) &&
+                                        (string.IsNullOrEmpty(userFilter.CashSize) || Convert.ToInt32(dbUser.CashSize) <= Convert.ToInt32(userFilter.CashSize)))
                                 .Select( dbUser => new UserModelDto()
                                 {
                                     Id = dbUser.Id, 

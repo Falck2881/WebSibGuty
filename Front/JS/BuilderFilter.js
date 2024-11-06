@@ -223,12 +223,12 @@ export class BuilderFilter
             inputCashSize.type = "radio";
             inputCashSize.id = "cash_size_0";
             // Значение которое получим из этого фильтра
-            inputCashSize.value = "1000";
+            inputCashSize.value = "10000";
             // Поиск выбранного значения осуществляется по имени кнопки 
             inputCashSize.name = "Filter_User_CashSize";
             labelCashSize.appendChild(inputCashSize);
 
-            labelCashSize.appendChild(document.createTextNode("До 1000 руб."));
+            labelCashSize.appendChild(document.createTextNode("До 10000 руб."));
 
             fieldsetFilter.appendChild(labelCashSize);
 
@@ -237,11 +237,11 @@ export class BuilderFilter
             
             inputCashSize_1.type = "radio";
             inputCashSize_1.id = "cash_size_1";
-            inputCashSize_1.value = "5000";
+            inputCashSize_1.value = "15000";
             inputCashSize_1.name = "Filter_User_CashSize";
             labelCashSize_1.appendChild(inputCashSize_1);
 
-            labelCashSize_1.appendChild(document.createTextNode("До 5000 руб."));
+            labelCashSize_1.appendChild(document.createTextNode("До 15000 руб."));
 
             fieldsetFilter.appendChild(labelCashSize_1);
 
@@ -250,11 +250,11 @@ export class BuilderFilter
 
             inputCashSize_2.type = "radio";
             inputCashSize_2.id = "cash_size_2";
-            inputCashSize_2.value = "10000";
+            inputCashSize_2.value = "30000";
             inputCashSize_2.name = "Filter_User_CashSize";
             labelCashSize_2.appendChild(inputCashSize_2);
 
-            labelCashSize_2.appendChild(document.createTextNode("До 10000 руб."));
+            labelCashSize_2.appendChild(document.createTextNode("До 30000 руб."));
 
             fieldsetFilter.appendChild(labelCashSize_2);
 
@@ -263,11 +263,11 @@ export class BuilderFilter
 
             inputCashSize_3.type = "radio";
             inputCashSize_3.id = "cash_size_3";
-            inputCashSize_3.value = "100000";
+            inputCashSize_3.value = "50000";
             inputCashSize_3.name = "Filter_User_CashSize";
             labelCashSize_3.appendChild(inputCashSize_3);
 
-            labelCashSize_3.appendChild(document.createTextNode("Больше 10000 руб."));
+            labelCashSize_3.appendChild(document.createTextNode("Больше 50000 руб."));
 
             fieldsetFilter.appendChild(labelCashSize_3);
             

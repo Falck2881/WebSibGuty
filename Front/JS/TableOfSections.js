@@ -29,7 +29,7 @@ export function TableOfSections()
 
                 user.forEach(data => console.log(`Name - ${data}, `));
 
-                for (let j = 0; j < 7; ++j) {
+                for (let j = 0; j < user.length; ++j) {
                     let columnInRow = document.createElement("td");
                     columnInRow.className = "td-content";
                     let contentColumn = document.createTextNode(user[j]);
@@ -60,7 +60,7 @@ export function TableOfSections()
                 let groups = Array.of(content[i].FacultetName, content[i].GroupName, 
                     content[i].GroupCreateData, content[i].GroupDeleteData);
 
-                for (let j = 0; j < 4; ++j) {
+                for (let j = 0; j < groups.length; ++j) {
                     let columnInRow = document.createElement("td");
                     columnInRow.className = "td-content";
                     let contentColumn = document.createTextNode(groups[j]);
@@ -90,7 +90,7 @@ export function TableOfSections()
 
                 let facultet = Array.of(content[i].FacultetName, content[i].Dean);
 
-                for (let j = 0; j < 2; ++j) {
+                for (let j = 0; j < facultet.length; ++j) {
                     let columnInRow = document.createElement("td");
                     columnInRow.className = "td-content";
                     let contentColumn = document.createTextNode(facultet[j]);

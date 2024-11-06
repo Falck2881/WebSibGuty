@@ -11,12 +11,19 @@ import {NullReferenceOfObjectError} from "./CommonException.js"
  */
 export class UserFilter
 {
+    // Муж/Жен
     #Gender = "";
 
+    // Военнообязанный
     #Military = "";
 
+    // Выплаты 
+    #CashSize = "";
+
+    // Имя пользователя
     #FirstName = "";
 
+    // Фамилия пользователя
     #LastName = "";
 
     constructor()
@@ -34,6 +41,7 @@ export class UserFilter
 
         userFilterDto.Gender = this.#Gender,
         userFilterDto.Military = this.#Military,
+        userFilterDto.CashSize = this.#CashSize,
         userFilterDto.FirstName = this.#FirstName,
         userFilterDto.LastName = this.#LastName
 
@@ -66,6 +74,15 @@ export class UserFilter
         {
             console.log(`Filter_User_Military - ${selectMilitaryFilter.value}`);
             this.#Military = selectMilitaryFilter.value;
+        }
+
+        // Поиск фильтра с выбранным значением - по группе "Filter_User_CashSize"
+        let selectCashSizeFilter =  ulFiltersInUserSection.querySelector('input[name="Filter_User_CashSize"]:checked');
+
+        if (selectCashSizeFilter != null )
+        {
+            console.log(`Filtet_User_CashSize - ${selectCashSizeFilter.value}`);
+            this.#CashSize = selectCashSizeFilter.value;
         }
     }
 
