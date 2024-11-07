@@ -131,6 +131,30 @@
     border-color: #313339; /* Нижняя граница для ячеек */
 }
 
+.th-cashsize{
+    display: unset;
+    border-style: none;
+    text-align: left;
+}
+
+.header-cashsize{
+    display: table-cell;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 8px;
+}
+
+.button-sort-cashsize{
+    background-image: url("../Image/No_Sort.png");
+    width: 32px;
+    height: 32px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    float: inline-end;
+    padding: 2px;
+}
+
 /* Стили для мобильных устройств */
 @media screen and (max-width: 600px) {
     table, thead, tbody, th, td, tr {
