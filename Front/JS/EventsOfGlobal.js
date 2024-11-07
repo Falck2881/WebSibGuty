@@ -20,5 +20,7 @@ function showCheckboxes()
 
 }
 
+
+
 // Добавляем функцию в глобальный объект
 window.showCheckboxes = showCheckboxes;

@@ -2,12 +2,15 @@
 //@ts-check
 import {BuilderFilter} from "./BuilderFilter.js"
 import {UserModelDto} from "./Entities.js"
+import { WebStorage } from "./WebStorage.js";
 
 /**
  * Этот класс служит общей абстракцией по работе с содержимым раздела
  */
 export class Section
 {
+    #_nameSection = "";
+
     #_fillTable = () => {};
 
     #_contentSection = new Array();
@@ -31,6 +34,14 @@ export class Section
         this.#_hostName = "http://localhost:5188/api"
     }
 
+    /**
+     * Устанавливает имя раздела
+     * @param {string} name 
+     */
+    setNameSection(name)
+    {
+        this.#_nameSection = name;
+    }
 
     /**
      * Устанавливаем новый способ заполнения раздела.
@@ -110,6 +121,9 @@ export class Section
         {
             console.log('Users received from server:', data);
             this.#_contentSection = data;
+            // Сохроняем загруженное содержимое во временное хранилище
+            let webStorage = new WebStorage();
+            webStorage.addContentOfSectionInSessionStorage(this.#_nameSection, this.#_contentSection);
         })
         .catch(error =>{
             console.error('There was a problem with your fetch operation:', error);
