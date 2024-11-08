@@ -32,7 +32,7 @@ export class WebStorage
      * @param {string} key 
      * @param {Array<any>} contentSection 
      */
-    addContentOfSectionInSessionStorage(key, contentSection)
+    addContentOfSectionInSessionStorage(contentSection)
     {
         if (Array.isArray(contentSection))
         {
@@ -41,7 +41,7 @@ export class WebStorage
             if (this.#_derivative instanceof WebStorage)
                 readyContent = this.#_derivative.prepareContentToStorage(contentSection);
 
-            sessionStorage.setItem(key, JSON.stringify(readyContent));
+            sessionStorage.setItem(this.#_nameStorage, JSON.stringify(readyContent));
         }
     }
 
