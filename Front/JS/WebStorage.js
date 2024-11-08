@@ -32,7 +32,7 @@ export class WebStorage
      * @param {string} key 
      * @param {Array<any>} contentSection 
      */
-    addContentOfSectionInSessionStorage(contentSection)
+    async addContentOfSectionInSessionStorage(contentSection)
     {
         if (Array.isArray(contentSection))
         {
@@ -51,7 +51,7 @@ export class WebStorage
      * @param {Array} content
      * @returns {Array} 
      */
-    prepareContentToStorage(content)
+    async prepareContentToStorage(content)
     {
         return Array.of();
     }

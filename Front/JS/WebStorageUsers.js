@@ -19,7 +19,7 @@ export class WebStorageUsers extends WebStorage
     * @param {Array} content
     * @returns {Array} 
     */
-    prepareContentToStorage(content)
+    async prepareContentToStorage(content)
     {
         let userModel = new UserModelDto;
         return userModel.ToUserModelDto(content);
