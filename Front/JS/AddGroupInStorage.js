@@ -5,7 +5,7 @@ import { GroupModelDto } from "./Entities.js"
 import { IndexDBRepository } from "./IndexDBRepository.js"
 import { IAddModelIntoStorage } from "./IAddModelIntoStorage.js"
 
-export class AddGroupStorage extends IAddModelIntoStorage
+export class AddGroupInStorage extends IAddModelIntoStorage
 {
     /**
      * Добавляет все сущности в хранилище Groups
