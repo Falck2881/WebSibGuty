@@ -1,15 +1,16 @@
 "use strict";
 //@ts-check
-import {BuilderFilter} from "./BuilderFilter.js"
-import {UserModelDto} from "./Entities.js"
-import { WebStorage } from "./WebStorage.js";
+import { BuilderFilter } from "./BuilderFilter.js"
+import { UserModelDto } from "./Entities.js"
+import { IAddModelIntoStorage } from "./IAddModelIntoStorage.js";
+import { StorageDtoModels } from "./Storage.js";
 
 /**
  * Этот класс служит общей абстракцией по работе с содержимым раздела
  */
 export class Section
 {
-    #_nameSection = "";
+    #_storageDtoModels = new StorageDtoModels;
 
     #_fillTable = () => {};
 
@@ -31,16 +32,17 @@ export class Section
         //для деплоя 
         // this.#_hostName = "/api";
         // для разработки
-        this.#_hostName = "http://localhost:5188/api"
+        this.#_hostName = "http://localhost:5188/api";
     }
 
     /**
-     * Устанавливает имя раздела
-     * @param {string} name 
+     * Устанавливает способ обновления DTO моделей в хранилище.
+     * @param {IAddModelIntoStorage} newMethod 
      */
-    setNameSection(name)
+    setMethodAddedModel(newMethod)
     {
-        this.#_nameSection = name;
+        if (newMethod != null && newMethod instanceof IAddModelIntoStorage)
+            this.#_storageDtoModels.setMethodAddedModel(newMethod);
     }
 
     /**
@@ -117,13 +119,11 @@ export class Section
 
             return response.json();
         })
-        .then(data => 
+        .then(async data => 
         {
             console.log('Users received from server:', data);
             this.#_contentSection = data;
-            // Сохроняем загруженное содержимое во временное хранилище
-            let webStorage = new WebStorage();
-            webStorage.addContentOfSectionInSessionStorage(this.#_nameSection, this.#_contentSection);
+            await this.#_storageDtoModels.addAllDtoModelsInStorage(data);
         })
         .catch(error =>{
             console.error('There was a problem with your fetch operation:', error);

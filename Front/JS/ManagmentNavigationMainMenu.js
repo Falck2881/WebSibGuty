@@ -2,17 +2,20 @@
 //@ts-check
 import {TableOfSections} from "./TableOfSections.js"
 import {Section} from "./Section.js"
+import {AddUserInStorage} from "./AddUserInStorage.js";
+import {AddGroupInStorage} from "./AddGroupInStorage.js"
+import {AddFacultetInStorage} from "./AddFacultetInStorage.js"
 
 var tables = new TableOfSections();
 let section = new Section(tables.fillUsersTable);
 
-section.setNameSection("Users");
+section.setMethodAddedModel(new AddUserInStorage);
 await section.loadContentSection("/user/table/content");
 await section.loadSection("Sections/Users.html");
 await section.fillTable();
 await section.addAllEvents();
 
-const nameSectons = new Array("Users", "Groups", "Facultets");
+const methodsAddedModel = new Array(new AddUserInStorage, new AddGroupInStorage, new AddFacultetInStorage);
 
 const urlSections = new Array("Sections/Users.html", "Sections/Groups.html", "Sections/Facultets.html");
 
@@ -30,15 +33,18 @@ const navigationsBySections = new Array(document.getElementById("nav-user-page")
 for(let index = 0; index < urlContentSections.length; ++index)
 {
     navigationsBySections[index].addEventListener("click", 
-        function(nameSecion, urlSection, newMethodfill, urlContentSection)
+        function(methodAddedModel, urlSection, newMethodfill, urlContentSection)
     {
         return async function(){
-            section.setNameSection(nameSecion);
-            await section.setMethodFill(newMethodfill)
+            section.setMethodAddedModel(methodAddedModel);
+            await section.setMethodFill(newMethodfill);
             await section.loadContentSection(urlContentSection);
             await section.loadSection(urlSection);
             await section.fillTable();
             await section.addAllEvents();
         }
-    }(nameSectons[index],urlSections[index], methodsFillTables[index], urlContentSections[index]), true);  
+    }(methodsAddedModel[index],
+                        urlSections[index],
+                    methodsFillTables[index],
+                urlContentSections[index]), true);  
 }

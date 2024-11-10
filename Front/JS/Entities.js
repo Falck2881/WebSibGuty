@@ -1,7 +1,16 @@
 "use strict";
 //@ts-check
 
-export class UserModelDto
+export class EntityDto
+{
+    constructor()
+    {
+        this.Id = "";
+    }
+}
+
+
+export class UserModelDto extends EntityDto
 {
     constructor()
     {
@@ -22,41 +31,9 @@ export class UserModelDto
         this.Military = "";
 
     }
-
-    /**
-     * Возвращает преобразованный массив в массив DTO моделей
-     * @param {Array<UserModelDto>} content 
-     */
-    async ToUserModelDto(content)
-    {
-        if (content === null)
-            return new Array.of();
-
-        let usersModelDto = new Array();
-
-        if (Array.isArray(content))
-        {
-            content.forEach(data => 
-                {
-                    var userModelDto = new UserModelDto();
-                    userModelDto.Id = data.Id;
-                    userModelDto.FirstName = data.FirstName;
-                    userModelDto.CashSize = data.CashSize;
-                    userModelDto.DataBirth = data.CashSize;
-                    userModelDto.LastName = data.LastName;
-                    userModelDto.Military = data.Military;
-                    userModelDto.PhoneNumber = data.PhoneNumber;
-                    userModelDto.Gender = data.Gender;
-
-                    usersModelDto.push(userModelDto);
-                });
-        }
-
-        return usersModelDto;
-    }
 }
 
-export class GroupModelDto
+export class GroupModelDto extends EntityDto
 {
     constructor()
     {
@@ -72,7 +49,7 @@ export class GroupModelDto
     }
 }
 
-export class FacultetModelDto
+export class FacultetModelDto extends EntityDto
 {
     constructor()
     {
