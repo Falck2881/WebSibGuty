@@ -6,7 +6,7 @@ import { IndexDBRepository } from "./IndexDBRepository.js"
 import { FacultetModelDto } from "./Entities.js"
 
 
-export class UpdateFacultetStorage extends IAddModelIntoStorage
+export class AddFacultetInStorage extends IAddModelIntoStorage
 {
     /**
      * Добавляет все сущности в хранилище
@@ -16,8 +16,6 @@ export class UpdateFacultetStorage extends IAddModelIntoStorage
     {
         if (content == null)
             return new Array;
-
-        let facultets = new Array;
         
         let indexDb = new IndexDBRepository("Facultets");
 

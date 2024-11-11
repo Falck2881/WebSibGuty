@@ -25,7 +25,7 @@ export class FacultetFilter
      * 
      * @returns {FacultetModelDto} Возвращает DTO объект данного класса
      */
-    toFacultetModelDto()
+    #toFacultetModelDto()
     {
         let facultetDto = new FacultetModelDto();
 
@@ -38,7 +38,7 @@ export class FacultetFilter
     /**
     * Сохроняет введённые значения из полей ввода типа - text
     */
-    async saveSelectedOfValuesFromInputField()
+    async #saveSelectedOfValuesFromInputField()
     {
         let ulFilterInFacultetSection = document.getElementById("selected-filter-Of-section");
 
@@ -60,5 +60,25 @@ export class FacultetFilter
             console.log(`two_Filter_NameDean - ${nameDeanFilter.value}`);
             this.#Dean = nameDeanFilter.value;
         }
+    }
+
+    /**
+     * Возвращает DTO модель факультета
+     * 
+     * @returns DTO модель факультета
+     */
+    async getDtoFacultetModel()
+    {
+        try
+        {
+            await this.#saveSelectedOfValuesFromInputField()
+        }
+        catch(exception)
+        {
+            if (exception instanceof NullReferenceOfObjectError)
+                console.error(`ERROR: ${exception.message}`);
+        }
+
+        return this.#toFacultetModelDto();
     }
 }

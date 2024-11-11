@@ -35,7 +35,7 @@ export class UserFilter
      * 
      * @returns {UserModelDto} Возвращает DTO объект данного класса
      */
-    toUserModelDto()
+    #toUserModelDto()
     {
         let userFilterDto = new UserModelDto;
 
@@ -51,7 +51,7 @@ export class UserFilter
     /**
      * Сохранить выбранные значения из переключателей типа radio
      */
-    async saveSelectedOfValuesFromSwitches()
+    async #saveSelectedOfValuesFromSwitches()
     {
         let ulFiltersInUserSection = document.getElementById("selected-filter-Of-section");
 
@@ -89,7 +89,7 @@ export class UserFilter
     /**
     * Сохроняет введённые значения из полей ввода типа - text
     */
-    async saveInputsOfValuesFromFieldsOfInput()
+    async #saveInputsOfValuesFromFieldsOfInput()
     {
         let ulFiltersInUserSection = document.getElementById("selected-filter-Of-section");
 
@@ -113,5 +113,25 @@ export class UserFilter
             console.log(`two_Filter_LastName - ${lastNameFilter.value}`);
             this.#LastName = lastNameFilter.value;
         }
+    }
+
+    /**
+     * Возвращает DTO модель пользователя
+     * @returns DTO модель пользователья
+     */
+    async getUserDtoModel()
+    {
+        try{
+            await this.#saveInputsOfValuesFromFieldsOfInput();
+    
+            await this.#saveSelectedOfValuesFromSwitches();
+        }
+        catch(exception)
+        {
+            if (exception instanceof NullReferenceOfObjectError)
+                console.error(`ERROR: ${exception.message}`);
+        }
+    
+        return this.#toUserModelDto();
     }
 }

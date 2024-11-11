@@ -6,7 +6,9 @@ import { GroupFilter } from "./GroupFilter.js"
 import { FacultetFilter } from "./FacultetFilter.js";
 import { Section } from "./Section.js";
 import { TableOfSections } from "./TableOfSections.js"
-import { NullReferenceOfObjectError } from "./CommonException.js";
+import { HttpRequest } from "./HttpRequest.js"
+import { IndexDBRepository } from "./IndexDBRepository.js";
+import { EntityDto } from "./Entities.js";
 
 /**
  *  Поиск по всем фильтрам в разделе - Пользователи.
@@ -14,52 +16,51 @@ import { NullReferenceOfObjectError } from "./CommonException.js";
  */
 async function findByFiltersOfUsers()
 {
+    // Найденная модель - ищем либо в локальном Хранилище либо на сервере в базе
+    let findUserModelDto = new EntityDto;
+
     let userSelectedFilters = new UserFilter;
 
-    try{
-        await userSelectedFilters.saveInputsOfValuesFromFieldsOfInput();
+    // Вытаскиваем готовую модель с выбранными атрибутами из фильтров в разделе "Пользователи"
+    let userModelDto = await userSelectedFilters.getUserDtoModel();
 
-        await userSelectedFilters.saveSelectedOfValuesFromSwitches();
-    }
-    catch(exception)
+    const indexDB = new IndexDBRepository("Users");
+
+    // Пробуем найти в локальном хранилище
+    findUserModelDto = indexDB.getEntity(userModelDto.Id);
+
+    let methodFillTable = new TableOfSections(); 
+    let userSection = new Section(methodFillTable.fillUsersTable);
+
+    // Если null то в локальном хранилище "Users" нету этой записи. Создаём запрсо на сервер в контроллер
+    if (findUserModelDto == null)
     {
-        if (exception instanceof NullReferenceOfObjectError)
-            console.error(`ERROR: ${exception.message}`);
+        // Для деплоя 
+        // const controllerName = "/api/user/table/filtered_users_content";
+        // Для разработки
+        const controllerName = "http://localhost:5188/api/user/table/filtered_users_content";
+
+        let httpRequest = new HttpRequest;
+        httpRequest.addContentTypeJson();
+        const resultSelectionByFilter = await httpRequest.PostAsync(controllerName, userModelDto);
+
+        try
+        {
+            if (!resultSelectionByFilter.ok)
+                throw new Error("Ошибка сети: Неудалось получить результат выборки по пользовательским фильтрам.");
+
+            findUserModelDto = await resultSelectionByFilter.json();
+        }
+        catch(error)
+        {
+            if (error instanceof Error)
+                console.error(`${error.message} | Код ошибки: ${resultSelectionByFilter.status}`);
+        }
     }
 
-    // Для деплоя 
-    // const controllerName = "/api/user/table/filtered_users_content";
-    // Для разработки
-    const controllerName = "http://localhost:5188/api/user/table/filtered_users_content";
-
-    const requestInit = {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(userSelectedFilters.toUserModelDto())
-    };
-
-    const resultSelectionByFilter = await fetch(controllerName, requestInit);
-
-    try
-    {
-        if (!resultSelectionByFilter.ok)
-            throw new Error("Ошибка сети: Неудалось получить результат выборки по пользовательским фильтрам.");
-        
-        let methodFillTable = new TableOfSections(); 
-        let userSection = new Section(methodFillTable.fillUsersTable);
-        var user = await resultSelectionByFilter.json();
-        console.log(`User : ${user}`);
-
-        await userSection.setContentSection(user);
-        await userSection.updateSection("Sections/Users.html");
-    }
-    catch(error)
-    {
-        if (error instanceof Error)
-            console.error(`${error.message} | Код ошибки: ${resultSelectionByFilter.status}`);
-    }
+    // В любом случаии что то должны показать пользователю
+    await userSection.setContentSection(findUserModelDto);
+    await userSection.updateSection("Sections/Users.html");
 }
 
 /**
@@ -70,30 +71,16 @@ async function findByFiltersOfGroups()
 {
     let groupFilter = new GroupFilter();
 
-    try
-    {
-        await groupFilter.saveSelectedOfValuesFromInputField()
-    }
-    catch(exception)
-    {
-        if (exception instanceof NullReferenceOfObjectError)
-            console.error(`ERROR: ${exception.message}`);
-    }
+    let groupDtoModel = await groupFilter.getDtoGroupModel();
 
     // Для деплоя 
     // const controllerName = "/api/group/table/filtered_groups_content";
     // Для разработки
     const controllerName = "http://localhost:5188/api/group/table/filtered_groups_content"
 
-    const requestInit = {
-        method: "POST",
-        headers: { 
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(groupFilter.toGroupModelDto())
-    };
-
-    const resultSelectionByFilter = await fetch(controllerName, requestInit);
+    let httpRequest = new HttpRequest;
+    httpRequest.addContentTypeJson();
+    const resultSelectionByFilter = await httpRequest.PostAsync(controllerName, groupDtoModel);
 
     try
     {
@@ -123,30 +110,16 @@ async function findByFiltersOfFacultets()
 {
     let facultetFilter = new FacultetFilter();
 
-    try
-    {
-        await facultetFilter.saveSelectedOfValuesFromInputField()
-    }
-    catch(exception)
-    {
-        if (exception instanceof NullReferenceOfObjectError)
-            console.error(`ERROR: ${exception.message}`);
-    }
+    let facultetDtoModel = await facultetFilter.getDtoFacultetModel();
 
     // Для деплоя 
     //const controllerName = "/api/facultet/table/filtered_facultets_content";
     // Для разработки
     const controllerName = "http://localhost:5188/api/facultet/table/filtered_facultets_content"
 
-    const requestInit = {
-        method: "POST",
-        headers: { 
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(facultetFilter.toFacultetModelDto())
-    };
-
-    const resultSelectionByFilter = await fetch(controllerName, requestInit);
+    let httpRequest = new HttpRequest;
+    httpRequest.addContentTypeJson();
+    const resultSelectionByFilter = await httpRequest.PostAsync(controllerName, facultetDtoModel);
 
     try
     {

@@ -1,5 +1,4 @@
 "use strict"
-import { NullReferenceOfObjectError } from "./CommonException.js";
 //@ts-check
 
 import {EntityDto} from "./Entities.js"
@@ -83,7 +82,7 @@ export class IndexDBRepository
     {
         const db = this.#_dataBase.result;
 
-        const trunsaction = db.transaction(this.#_nameStorage, "readonly");
+        const trunsaction = db.transaction(this.#_nameStorage, "readwrite");
 
         const storage = trunsaction.objectStore(this.#_nameStorage);
 
@@ -95,5 +94,21 @@ export class IndexDBRepository
             if (existEntry == null)
                 storage.add(existEntry);
         }
+    }
+
+    /**
+     * Вернуть сущность
+     * @param {string} id
+     * @returns {EntityDto} Возвращает сущность 
+     */
+    async getEntity(id)
+    {
+        const db = this.#_dataBase.result;
+
+        const transaction = db.transaction(this.#_nameStorage, "readonly");
+
+        const storyObject = transaction.objectStore(this.#_nameStorage);
+
+        return storyObject.get(id);
     }
 }

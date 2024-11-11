@@ -26,7 +26,7 @@ export class GroupFilter
      * 
      * @returns {GroupModelDto} Возвращает DTO объект данного класса
      */
-    toGroupModelDto()
+    #toGroupModelDto()
     {
         let groupModelDto = new GroupModelDto();
 
@@ -39,7 +39,7 @@ export class GroupFilter
     /**
     * Сохроняет введённые значения из полей ввода типа - text
     */
-    async saveSelectedOfValuesFromInputField()
+    async #saveSelectedOfValuesFromInputField()
     {
         let ulFilterInGroupSection = document.getElementById("selected-filter-Of-section");
 
@@ -61,5 +61,24 @@ export class GroupFilter
             console.log(`two_Filter_GroupName - ${groupNameFilter.value}`);
             this.#GroupName = groupNameFilter.value;
         }
+    }
+
+    /**
+     * Возвращает DTO модель группы
+     * @returns DTO модель группы
+     */
+    async getDtoGroupModel()
+    {
+        try
+        {
+            await this.#saveSelectedOfValuesFromInputField();
+        }
+        catch(exception)
+        {
+            if (exception instanceof NullReferenceOfObjectError)
+                console.error(`ERROR: ${exception.message}`);
+        }
+
+        return this.#toGroupModelDto();
     }
 }
