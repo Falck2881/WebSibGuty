@@ -12,51 +12,68 @@ export class EntityDto
 
 export class UserModelDto extends EntityDto
 {
-    constructor()
+    /**
+     * Устанавливает значения 
+     * @param {UserModelDto} user 
+     */
+    constructor(user)
     {
-        this.Id = "";
+        super();
 
-        this.FirstName = "";
+        this.Id = user?.Id || "";
 
-        this.LastName = "";
+        this.FirstName = user?.FirstName || "";
 
-        this.Gender = "";
+        this.LastName = user?.LastName || "";
 
-        this.DataBirth = "";
+        this.Gender = user?.Gender || "";
 
-        this.PhoneNumber = "";
+        this.DataBirth = user?.DataBirth || "";
 
-        this.CashSize = "";
+        this.PhoneNumber = user?.PhoneNumber || "";
 
-        this.Military = "";
+        this.CashSize = user?.CashSize || "";
 
+        this.Military = user?.Military || "";
     }
 }
 
 export class GroupModelDto extends EntityDto
 {
-    constructor()
+    /**
+     * Устанавливает значения 
+     * @param {GroupModelDto} group
+     */
+    constructor(group)
     {
-        this.Id = "";
+        super();
+
+        this.Id = group?.Id || "";
         
-        this.FacultetName = "";
+        this.FacultetName = group?.FacultetName || "";
 
-        this.GroupName = "";
+        this.GroupName = group?.GroupName || "";
 
-        this.GroupCreateData = "";
+        this.GroupCreateData = group?.GroupCreateData || "";
 
-        this.GroupDeleteData = "";
+        this.GroupDeleteData = group?.GroupDeleteData || "";
     }
 }
 
 export class FacultetModelDto extends EntityDto
 {
-    constructor()
+    /**
+     * Устанавливает значения 
+     * @param {FacultetModelDto} facultet 
+     */
+    constructor(facultet)
     {
-        this.Id = "";
+        super();
+
+        this.Id = facultet?.Id || "";
         
-        this.FacultetName = "";
+        this.FacultetName = facultet?.FacultetName || "";
         
-        this.Dean = "";
+        this.Dean = facultet?.Dean || "";
     }
 }

@@ -145,7 +145,6 @@
 }
 
 .button-sort-cashsize{
-    background-image: url("../Image/No_Sort.png");
     width: 32px;
     height: 32px;
     background-position: center;
@@ -153,6 +152,18 @@
     background-repeat: no-repeat;
     float: inline-end;
     padding: 2px;
+}
+
+.img-no-sort-cashsize{
+    background-image: url("../Image/No_Sort.png");
+}
+
+.img-sort-up-cashsize{
+    background-image: url("../Image/Sort_Up.png");
+}
+
+.img-sort-down-cashsize{
+    background-image: url("../Image/Sort_Down.png");
 }
 
 .button-sort-cashsize:hover{

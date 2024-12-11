@@ -4,6 +4,9 @@
 import {IAddModelIntoStorage} from "./IAddModelIntoStorage.js"
 import { EntityDto } from "./Entities.js";
 
+/**
+ * Класс хранилища для работы с Dto моделями
+ */
 export class StorageDtoModels
 {
     #_addModel;
@@ -29,8 +32,7 @@ export class StorageDtoModels
      */
     async addAllDtoModelsInStorage(content)
     {
-        if (this.#_addModel != null && this.#_addModel instanceof IAddModelIntoStorage)
-            await this.#_addModel.execute(content);
+        await this.#_addModel.execute(content);
     }
 
 }

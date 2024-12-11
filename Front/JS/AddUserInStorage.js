@@ -1,9 +1,12 @@
 "use strict"
 //@ts-check
 import { IAddModelIntoStorage } from "./IAddModelIntoStorage.js"
-import { UserModelDto } from "./Entities.js"
+import { EntityDto, UserModelDto } from "./Entities.js"
 import { IndexDBRepository } from "./IndexDBRepository.js";
 
+/**
+ * Реализует добавление всех сущностей "Пользователи" во временное хранилище.
+ */
 export class AddUserInStorage extends IAddModelIntoStorage
 {
     /**
@@ -17,12 +20,15 @@ export class AddUserInStorage extends IAddModelIntoStorage
             return;
 
         let indexDb = new IndexDBRepository("Users");
+        
+        await indexDb.openRepository();
 
         if (Array.isArray(content))
         {
             content.forEach(async user => 
                 {
-                    await indexDb.addDtoModel(user);
+                    var userDtoModel = new UserModelDto(user);
+                    await indexDb.addDtoModel(userDtoModel);
                 });
         }
     }

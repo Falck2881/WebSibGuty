@@ -1,9 +1,9 @@
 "use strict";
 //@ts-check
 import { BuilderFilter } from "./BuilderFilter.js"
-import { UserModelDto } from "./Entities.js"
+import { EntityDto } from "./Entities.js"
 import { IAddModelIntoStorage } from "./IAddModelIntoStorage.js";
-import { StorageDtoModels } from "./Storage.js";
+import { StorageDtoModels } from "./StorageDtoModels.js";
 
 /**
  * Этот класс служит общей абстракцией по работе с содержимым раздела
@@ -39,7 +39,7 @@ export class Section
      * Устанавливает способ обновления DTO моделей в хранилище.
      * @param {IAddModelIntoStorage} newMethod 
      */
-    setMethodAddedModel(newMethod)
+    setMethodAddedModelInStorage(newMethod)
     {
         if (newMethod != null && newMethod instanceof IAddModelIntoStorage)
             this.#_storageDtoModels.setMethodAddedModel(newMethod);
@@ -58,7 +58,7 @@ export class Section
 
     /**
      * 
-     * @param {Array<UserModelDto>} newContentSection 
+     * @param {Array<EntityDto>} newContentSection 
      */
     setContentSection(newContentSection)
     {
@@ -110,7 +110,6 @@ export class Section
     async loadContentSection(url)
     {
         var str = this.#_hostName + url;
-        console.log(str);
         await fetch(str)
         .then(response => 
         {
@@ -121,7 +120,6 @@ export class Section
         })
         .then(async data => 
         {
-            console.log('Users received from server:', data);
             this.#_contentSection = data;
             await this.#_storageDtoModels.addAllDtoModelsInStorage(data);
         })

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 
 /// <summary>
-/// Релизует выборку содержимого из таюдицы моделей <see cref="UserModel"/>
+/// Релизует выборку содержимого из таблицы моделей <see cref="UserModel"/>
 /// </summary>
 public sealed class UsersFilterOut: IFilterOut
 {

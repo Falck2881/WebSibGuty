@@ -27,8 +27,6 @@ export function TableOfSections()
                     content[i].Gender, content[i].DataBirth, content[i].PhoneNumber, content[i].CashSize,
                     content[i].Military);
 
-                user.forEach(data => console.log(`Name - ${data}, `));
-
                 for (let j = 0; j < user.length; ++j) {
                     let columnInRow = document.createElement("td");
                     columnInRow.className = "td-content";

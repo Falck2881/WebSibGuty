@@ -12,12 +12,10 @@ export class BuilderFilter
      */
     async addEventsToWorkWithFilters()
     {
-        console.log("DOM полностью загружен");
         let filtersCheckboxes = document.getElementById("filters_section");
         
         if (filtersCheckboxes) 
         {
-            console.log("Элемент найден");
             filtersCheckboxes.addEventListener("change", async (event) =>
             {
                 if (event.target.tagName.toLowerCase() === "input" && event.target.type === "checkbox")
@@ -31,14 +29,13 @@ export class BuilderFilter
     }
 
     /**
-     * 
+     * Добавляет/удаляет фильтры из DOM дерева.
      * @param {HTMLInputElement} target 
      */
     async #managmentFilters(target)
     {
         if (target instanceof HTMLInputElement)
         {
-            console.log("managmentFilters");
             let filter = document.getElementById(target.id);
 
             if (filter != null)
@@ -276,7 +273,6 @@ export class BuilderFilter
         
         input.type = "text";
         let idValue = filter.id + '_' + filter.value
-        console.log(`IdValue - ${idValue}`);
         input.setAttribute("id", idValue);
         fieldsetFilter.appendChild(input);
     }

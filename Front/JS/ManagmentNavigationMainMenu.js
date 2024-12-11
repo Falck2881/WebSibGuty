@@ -5,11 +5,19 @@ import {Section} from "./Section.js"
 import {AddUserInStorage} from "./AddUserInStorage.js";
 import {AddGroupInStorage} from "./AddGroupInStorage.js"
 import {AddFacultetInStorage} from "./AddFacultetInStorage.js"
+import {IndexDBRepository, initializedDBRepository} from "./IndexDBRepository.js"
+
+const namesStorage = new Array("Users", "Groups", "Facultets");
+
+(async () => 
+{
+    await initializedDBRepository(namesStorage);
+})();
 
 var tables = new TableOfSections();
 let section = new Section(tables.fillUsersTable);
 
-section.setMethodAddedModel(new AddUserInStorage);
+section.setMethodAddedModelInStorage(new AddUserInStorage);
 await section.loadContentSection("/user/table/content");
 await section.loadSection("Sections/Users.html");
 await section.fillTable();
@@ -33,18 +41,30 @@ const navigationsBySections = new Array(document.getElementById("nav-user-page")
 for(let index = 0; index < urlContentSections.length; ++index)
 {
     navigationsBySections[index].addEventListener("click", 
-        function(methodAddedModel, urlSection, newMethodfill, urlContentSection)
+        function(methodAddedModel, urlSection, newMethodfill, urlContentSection, nameStorage)
     {
         return async function(){
-            section.setMethodAddedModel(methodAddedModel);
+            section.setMethodAddedModelInStorage(methodAddedModel);
             await section.setMethodFill(newMethodfill);
-            await section.loadContentSection(urlContentSection);
+            
+            const indexDB = new IndexDBRepository(nameStorage);
+            await indexDB.openRepository();
+
+            let contentSection = await indexDB.getAllEntities();
+            
+            if (Array.isArray(contentSection) && contentSection.length > 0){
+                section.setContentSection(contentSection);
+            }
+            else
+                await section.loadContentSection(urlContentSection);
+
             await section.loadSection(urlSection);
             await section.fillTable();
             await section.addAllEvents();
         }
     }(methodsAddedModel[index],
-                        urlSections[index],
-                    methodsFillTables[index],
-                urlContentSections[index]), true);  
+            urlSections[index],
+        methodsFillTables[index],
+urlContentSections[index],
+        namesStorage[index]), true);  
 }

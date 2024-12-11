@@ -22,6 +22,7 @@ export class HttpRequest
      * Адресс куда отправляем запрос
      * @param {string} url 
      * @param {EntityDto} entity 
+     * @returns {Promise<Response>}
      */
     async PostAsync(url, entity)
     {
