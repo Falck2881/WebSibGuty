@@ -81,4 +81,28 @@ export class GroupFilter
 
         return this.#toGroupModelDto();
     }
+
+    /**
+     * Проверяет пуст ли фильтр
+     * @returns true - все поля пусты, false - некоторые (или все) поля НЕ пусты.
+     */
+    isEmptyFilters()
+    {
+        let result = false;
+
+        let fieldFilters = new Array(this.#FacultetName, this.#GroupName);
+
+        for(let i = 0; i < fieldFilters.length; ++i)
+        {
+            if (fieldFilters[i] === "")
+                result = true;
+            else
+            {
+                result = false;
+                break;
+            }
+        }
+        
+        return result;
+    }
 }

@@ -9,6 +9,11 @@ import { TableOfSections } from "./TableOfSections.js"
 import { HttpRequest } from "./HttpRequest.js"
 import { IndexDBRepository } from "./IndexDBRepository.js";
 import { FacultetModelDto, GroupModelDto, UserModelDto } from "./Entities.js";
+import { StorageDtoModels } from "./StorageDtoModels.js";
+import { AddUserInStorage } from "./AddUserInStorage.js";
+import { AddGroupInStorage } from "./AddGroupInStorage.js";
+import { AddFacultetInStorage } from "./AddFacultetInStorage.js";
+
 
 /**
  *  Поиск по всем фильтрам в разделе - Пользователи.
@@ -16,23 +21,38 @@ import { FacultetModelDto, GroupModelDto, UserModelDto } from "./Entities.js";
  */
 async function findByFiltersOfUsers()
 {
-    let userSelectedFilters = new UserFilter;
+    let userFilters = new UserFilter;
 
-    const indexDB = new IndexDBRepository("Users");
+    const indexDB = new IndexDBRepository;
 
-    await indexDB.openRepository();
+    await indexDB.openRepository("UserModelSelection","UserModelSelection");
 
     let methodFillTable = new TableOfSections(); 
     let userSection = new Section(methodFillTable.fillUsersTable);
 
      // Вытаскиваем готовую модель с выбранными атрибутами из фильтров в разделе "Пользователи"
-    let userModelDto = await userSelectedFilters.getUserDtoModel();
+    let selectedFilters = await userFilters.getSelectedFilters();
 
     // Найденная модель - ищем либо в локальном Хранилище либо на сервере в базе
-    let usersFromStorage = await indexDB.getAllEntities();
+    let usersFromStorage = await indexDB.getAllEntities("UserModelSelection");
+
+    let userModels = new Array;
+    
+    // Проверяем пусты ли фильтры:
+    // true - фильтры не выбраны, значит выборка не нужна, вытаскиваем все модели из кэша по умолчанию
+    // false - некоторые (или все) фильтры были выбраны и их поля не пусты
+    if (userFilters.isEmptyFilters())
+    {
+        await indexDB.openRepository("WebSibguty", "Users");
+        let allEntitiesUsers = await indexDB.getAllEntities("Users");
+        userModels = await findUsersInStorage(allEntitiesUsers, selectedFilters);
+    }
+    else{
+        userModels = await findUsersInStorage(usersFromStorage, selectedFilters);
+    }
 
     // Если null то в локальном хранилище "Users" нету этой записи. Создаём запрос на сервер в контроллер
-    if (Array.isArray(usersFromStorage) && usersFromStorage.length === 0)
+    if (Array.isArray(userModels) && userModels.length === 0)
     {
         // Для деплоя 
         // const controllerName = "/api/user/table/filtered_users_content";
@@ -42,14 +62,14 @@ async function findByFiltersOfUsers()
         let httpRequest = new HttpRequest;
         httpRequest.addContentTypeJson();
         // Пытаемся получить содержимое выбранное в "Пользовательских" фильтрах
-        const resultSelectionByFilter = await httpRequest.PostAsync(controllerName, userModelDto);
+        const resultSelectionByFilter = await httpRequest.PostAsync(controllerName, selectedFilters);
 
         try
         {
             if (!resultSelectionByFilter.ok)
                 throw new Error("Ошибка сети: Неудалось получить результат выборки по пользовательским фильтрам.");
 
-            usersFromStorage = await resultSelectionByFilter.json();
+            userModels = await resultSelectionByFilter.json();
         }
         catch(error)
         {
@@ -58,33 +78,41 @@ async function findByFiltersOfUsers()
         }
     }
 
-    let userModels = await findUsersInStorage(usersFromStorage, userModelDto);
     // В любом случаии что то должны показать пользователю
     await userSection.setContentSection(userModels);
     await userSection.updateSection("Sections/Users.html");
+    
+    // Если был выбран хоть один фильтр, то чистим старый кэш и сохроняем новый результат выборки в этот же кэш 
+    if (!userFilters.isEmptyFilters())
+        await indexDB.clearStorage("UserModelSelection");
+
+    let storageDtoModel = new StorageDtoModels;
+    storageDtoModel.setMethodAddedModel(new AddUserInStorage("UserModelSelection","UserModelSelection"));
+    await storageDtoModel.addAllDtoModelsInStorage(userModels);
+    
 }
 
 /**
  * Поиск моделей пользователей в хранилище
  * @param {Array<UseModelDto>} usersStorage 
- * @param {UserModelDto} userModelDto 
+ * @param {UserModelDto} selectedFilters 
  */
-async function findUsersInStorage(usersStorage, userModelDto)
+async function findUsersInStorage(usersStorage, selectedFilters)
 {
     let userModels = new Array;
 
     usersStorage.forEach(user => {
-            if ((userModelDto.FirstName === "" || userModelDto.FirstName === user.FirstName) &&
-                (userModelDto.LastName === "" || userModelDto.LastName === user.LastName) &&
-                (userModelDto.Gender === "" || userModelDto.Gender === user.Gender) &&
-                (userModelDto.CashSize === "" || userModelDto.CashSize === user.CashSize) &&
-                (userModelDto.Military === "") || userModelDto.Military === user.Military)
+            if ((selectedFilters.FirstName === "" || selectedFilters.FirstName === user.FirstName) &&
+                (selectedFilters.LastName === "" || selectedFilters.LastName === user.LastName) &&
+                (selectedFilters.Gender === "" || selectedFilters.Gender === user.Gender) &&
+                (selectedFilters.CashSize === "" || selectedFilters.CashSize === user.CashSize) &&
+                (selectedFilters.Military === "") || selectedFilters.Military === user.Military)
                 {
                     let userModelDto = new UserModelDto(user);
                     userModels.push(userModelDto);
                 }
     });
-
+    console.log(userModels);
     return userModels;
 }
 
@@ -96,19 +124,30 @@ async function findByFiltersOfGroups()
 {
     let groupFilter = new GroupFilter();
 
-    let indexDB = new IndexDBRepository("Groups");
+    let indexDB = new IndexDBRepository;
 
-    await indexDB.openRepository();
+    await indexDB.openRepository("GroupModelSelection", "GroupModelSelection");
 
     let methodFillTable = new TableOfSections(); 
     let groupSection = new Section(methodFillTable.fillGroupsTable);
 
-    let groupDtoModel = await groupFilter.getDtoGroupModel();
+    let selectedFilters = await groupFilter.getDtoGroupModel();
 
     // Пробуем найти запись в локальном хранилище 
-    let groupsFromStorage = await indexDB.getAllEntities();
+    let groupsFromStorage = await indexDB.getAllEntities("GroupModelSelection");
 
-    if (Array.isArray(groupsFromStorage) && groupsFromStorage.length === 0)
+    let groupModels = new Array;
+
+    if (groupFilter.isEmptyFilters())
+    {
+        await indexDB.openRepository("WebSibguty", "Groups");
+        let allEntitiesGroup = await indexDB.getAllEntities("Groups");
+        groupModels = await findGroupsInStorage(allEntitiesGroup, selectedFilters);
+    }
+    else
+        groupModels = await findGroupsInStorage(groupsFromStorage, selectedFilters);
+
+    if (Array.isArray(groupModels) && groupModels.length === 0)
     {
         // Для деплоя 
         // const controllerName = "/api/group/table/filtered_groups_content";
@@ -118,16 +157,14 @@ async function findByFiltersOfGroups()
         let httpRequest = new HttpRequest;
         httpRequest.addContentTypeJson();
         // Пытаемся получить содержимое выбранное в "Пользовательских" фильтрах
-        const resultSelectionByFilter = await httpRequest.PostAsync(controllerName, groupDtoModel);
+        const resultSelectionByFilter = await httpRequest.PostAsync(controllerName, selectedFilters);
 
         try
         {
             if (!resultSelectionByFilter.ok)
                 throw new Error("Ошибка сети: Неудалось получить результат выборки по пользовательским фильтрам.");
             
-            groupsFromStorage = await resultSelectionByFilter.json();
-            console.log(`Groups : ${groupsFromStorage}`);
-
+            groupModels = await resultSelectionByFilter.json();
         }
         catch(error)
         {
@@ -136,23 +173,29 @@ async function findByFiltersOfGroups()
         }
     }
 
-    let groupModels = await findGroupsInStorage(groupsFromStorage, groupDtoModel)
     await groupSection.setContentSection(groupModels);
     await groupSection.updateSection("Sections/Groups.html");
+
+    if (!groupFilter.isEmptyFilters())
+        await indexDB.clearStorage("GroupModelSelection");
+    
+    let storageDtoModel = new StorageDtoModels;
+    storageDtoModel.setMethodAddedModel(new AddGroupInStorage("GroupModelSelection","GroupModelSelection"));
+    await storageDtoModel.addAllDtoModelsInStorage(groupModels);
 }
 
 /**
  * Ищет модели групп в хранилище
  * @param {Array<GroupModelDto>} groupModelsStorage
- * @param {GroupModelDto} groupDtoModel
+ * @param {GroupModelDto} selectedFilters
  */
-async function findGroupsInStorage(groupModelsStorage, groupDtoModel) 
+async function findGroupsInStorage(groupModelsStorage, selectedFilters) 
 {
     let groupModels = new Array;
 
     groupModelsStorage.forEach(group => {
-            if ((groupDtoModel.GroupName === "" || groupDtoModel.GroupName === group.GroupName) &&
-                (groupDtoModel.FacultetName === "" || groupDtoModel.FacultetName === group.FacultetName))
+            if ((selectedFilters.GroupName === "" || selectedFilters.GroupName === group.GroupName) &&
+                (selectedFilters.FacultetName === "" || selectedFilters.FacultetName === group.FacultetName))
                 {
                     let groupModelDto = new GroupModelDto(group);
                     groupModels.push(groupModelDto);
@@ -170,18 +213,29 @@ async function findByFiltersOfFacultets()
 {
     let facultetFilter = new FacultetFilter();
 
-    let indexDB = new IndexDBRepository("Facultets");
+    let indexDB = new IndexDBRepository;
 
-    await indexDB.openRepository();
+    await indexDB.openRepository("FacultetModelStorage", "FacultetModelStorage");
 
     let methodFillTable = new TableOfSections(); 
     let facultetSection = new Section(methodFillTable.fillFacultetTable);
 
     let facultetDtoModel = await facultetFilter.getDtoFacultetModel();
 
-    let facultetsFromStorage = await indexDB.getAllEntities();
+    let facultetsFromStorage = await indexDB.getAllEntities("FacultetModelStorage");
 
-    if (Array.isArray(facultetsFromStorage) && facultetsFromStorage.length === 0)
+    let facultetModels = new Array;
+
+    if (facultetFilter.isEmptyFilters())
+    {
+        await indexDB.openRepository("WebSibguty", "Facultets");
+        let allEntitiesFacultet = await indexDB.getAllEntities("Facultets");
+        facultetModels = await findFacultetsInStorage(allEntitiesFacultet, facultetDtoModel)
+    }
+    else
+        facultetModels = await findFacultetsInStorage(facultetsFromStorage, facultetDtoModel)
+
+    if (Array.isArray(facultetModels) && facultetModels.length === 0)
     {
         // Для деплоя 
         //const controllerName = "/api/facultet/table/filtered_facultets_content";
@@ -198,8 +252,7 @@ async function findByFiltersOfFacultets()
             if (!resultSelectionByFilter.ok)
                 throw new Error("Ошибка сети: Неудалось получить результат выборки по пользовательским фильтрам.");
             
-            facultetsFromStorage = await resultSelectionByFilter.json();
-            console.log(`Facultets : ${facultets}`);
+            facultetModels = await resultSelectionByFilter.json();
         }
         catch(error)
         {
@@ -208,23 +261,29 @@ async function findByFiltersOfFacultets()
         }
     }
     
-    let facultetModels = findFacultetsInStorage(facultetsFromStorage, facultetDtoModel)
     await facultetSection.setContentSection(facultetModels);
     await facultetSection.updateSection("Sections/Facultets.html");
+
+    if (!facultetFilter.isEmptyFilters())
+        await indexDB.clearStorage("FacultetModelStorage");
+
+    let storageDtoModel = new StorageDtoModels;
+    storageDtoModel.setMethodAddedModel(new AddFacultetInStorage("FacultetModelStorage","FacultetModelStorage"));
+    await storageDtoModel.addAllDtoModelsInStorage(facultetModels);
 }
 
 /**
  * Ищет модели факультета в хранилище
  * @param {Array<FacultetModelDto>} facultetModelsStorage
- * @param {FacultetModelDto} facultetDtoModel
+ * @param {FacultetModelDto} selectedFilters
  */
-async function findFacultetsInStorage(facultetModelsStorage, facultetDtoModel) 
+async function findFacultetsInStorage(facultetModelsStorage, selectedFilters) 
 {
     let facultetModels = new Array;
 
     facultetModelsStorage.forEach(facultet => {
-            if ((facultetDtoModel.FacultetName === "" || facultetDtoModel.FacultetName === facultet.FacultetName) &&
-                (facultetDtoModel.Dean === "" || facultetDtoModel.Dean === facultet.Dean))
+            if ((selectedFilters.FacultetName === "" || selectedFilters.FacultetName === facultet.FacultetName) &&
+                (selectedFilters.Dean === "" || selectedFilters.Dean === facultet.Dean))
                 {
                     let facultetModelDto = new FacultetModelDto(facultet);
                     facultetModels.push(facultetModelDto);

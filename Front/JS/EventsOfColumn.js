@@ -5,6 +5,7 @@ import { IndexDBRepository } from "./IndexDBRepository.js"
 import { TableOfSections } from "./TableOfSections.js"
 import { AddUserInStorage } from "./AddUserInStorage.js";
 import { Section } from "./Section.js";
+import { StorageDtoModels } from "./StorageDtoModels.js";
 
 // Тип сортировки
 const TypeSort = {
@@ -20,15 +21,21 @@ let currentSort = TypeSort.NoSort;
  */
 async function sortUsersOfSectionByCashSize()
 {
-    let indexDb = new IndexDBRepository("Users");
+    let indexDb = new IndexDBRepository;
 
-    await indexDb.openRepository();
-    let contentData = await indexDb.getAllEntities();
+    await indexDb.openRepository("UserModelSelection", "UserModelSelection");
 
-    if (contentData === null)
-        return;
+    let contentData = new Array;
 
-    if (Array.isArray(contentData))
+    contentData = await indexDb.getAllEntities("UserModelSelection");
+
+    if (Array.isArray(contentData) && contentData.length === 0)
+    {
+        await indexDb.openRepository("WebSibguty");
+        contentData = await indexDb.getAllEntities("Groups");
+    }
+
+    if (Array.isArray(contentData) && contentData.length > 0)
     {
         var buttonSortCashSize = document.getElementById("sort-cashsize");
 
@@ -60,7 +67,13 @@ async function sortUsersOfSectionByCashSize()
     let tables = new TableOfSections();
     let section = new Section(tables.fillUsersTable);
 
-    section.setMethodAddedModelInStorage(new AddUserInStorage);
+    // Обновляем кэш в хранилище
+    let methodAddUserInStorage = new AddUserInStorage("UserModelSelection", "UserModelSelection");
+    let storageDtoModel = new StorageDtoModels;
+    storageDtoModel.setMethodAddedModel(methodAddUserInStorage);
+    await storageDtoModel.addAllDtoModelsInStorage(contentData);
+
+    // Перерисовывем страницу
     await section.setContentSection(contentData)
     await section.updateSection("Sections/Users.html");
 

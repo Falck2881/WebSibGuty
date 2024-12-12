@@ -9,6 +9,16 @@ import { IndexDBRepository } from "./IndexDBRepository.js";
  */
 export class AddUserInStorage extends IAddModelIntoStorage
 {
+    #nameDataBase = "";
+
+    #nameStorage = "";
+
+    constructor(newNameDataBase ,newNameStorage = "")
+    {
+        super();
+        this.#nameDataBase = newNameDataBase;
+        this.#nameStorage = newNameStorage;
+    }
     /**
     * Добавляет все сущности в хранилище пользователей 
     * @param {Array<UserModelDto>} content
@@ -19,16 +29,16 @@ export class AddUserInStorage extends IAddModelIntoStorage
         if (content == null)
             return;
 
-        let indexDb = new IndexDBRepository("Users");
+        let indexDb = new IndexDBRepository;
         
-        await indexDb.openRepository();
+        await indexDb.openRepository(this.#nameDataBase, this.#nameStorage);
 
         if (Array.isArray(content))
         {
             content.forEach(async user => 
                 {
                     var userDtoModel = new UserModelDto(user);
-                    await indexDb.addDtoModel(userDtoModel);
+                    await indexDb.addDtoModel(userDtoModel, this.#nameStorage);
                 });
         }
     }

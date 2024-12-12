@@ -1,10 +1,10 @@
 "use strict"
 //@ts-check
 
-import {EntityDto, UserModelDto} from "./Entities.js"
+import {EntityDto} from "./Entities.js"
 
 /**
- * 
+ * Инициализирует стартовые хранлища для моделей из базы данных
  * @param  {Array<string>} namesStorage - названия хранилищ для инициализации
  * @returns {Promise<void>}
  */
@@ -44,17 +44,14 @@ export async function initializedDBRepository(namesStorage)
         dbRequest.onupgradeneeded = (event) =>
             {
                 const db = event.target.result;
-                console.log(" const db = event.target.result;")
                 if (db instanceof IDBDatabase)
                 {
-                    console.log("Прошли db instanceof IDBDatabase")
                     namesStorage.forEach(nameStorage => 
                         {
                             // Если не существует хранилища под указанным именем, то добавляем это хранилище. 
                             if (!db.objectStoreNames.contains(nameStorage))
                             {
                                 db.createObjectStore(nameStorage, {keyPath: "Id", autoIncrement: false});
-                                console.log(`Создали - ${nameStorage}`);
                             }
                         });
                 }
@@ -70,22 +67,17 @@ export class IndexDBRepository
     // База данных
     #_dataBase;
 
-    // Название хранилища 
-    #_nameStorage = ""; 
-
     /**
-     * @param {string} nameStorage 
+     * Открывает базу данных
+     * @param {string} nameDataBase - название базы данных 
+     * @param {string} nameStorage - название хранилища
+     * @returns {Promise<void>} 
      */
-    constructor(nameStorage)
-    {
-        this.#_nameStorage = nameStorage;
-    }
-
-    async openRepository()
+    async openRepository(nameDataBase, nameStorage = "")
     {
         return new Promise((resolve, reject) => 
             {
-                const request = window.indexedDB.open("WebSibguty");
+                const request = window.indexedDB.open(nameDataBase);
 
                 /*
                 * Устанавливаем событие для успешно открытой базе данных;
@@ -98,7 +90,7 @@ export class IndexDBRepository
                         {
                             this.#_dataBase = db;
                         }
-                        
+
                         resolve(this.#_dataBase)
                     };
 
@@ -111,23 +103,42 @@ export class IndexDBRepository
                         console.error(`Ошибка при открытии базы данных: ${error.message}`);
                         reject(event.target.error)
                     };
+
+                /*
+                * Создаёт хранилище.
+                * Событие upgradeneeded вызывается только при отсутствии хранилища или отсутствии этого хранилища в новой версии
+                */
+                request.onupgradeneeded = (event) =>
+                    {
+                        const db = event.target.result;
+                        if (db instanceof IDBDatabase)
+                        {
+                            // Если не существует хранилища под указанным именем, то добавляем это хранилище. 
+                            if (!db.objectStoreNames.contains(nameStorage))
+                            {
+                                db.createObjectStore(nameStorage, {keyPath: "Id", autoIncrement: false});
+                            }
+                        }
+                    }
             });
     }
 
     /**
      * Добавляет сущность в хранилище
-     * @param {EntityDto} entity 
+     * @param {EntityDto} entity - сущность которую добавляем
+     * @param {string} nameStorage - название хранилища
+     * @returns {Promise<void>}
      */
-    async addDtoModel(entity)
+    async addDtoModel(entity, nameStorage)
     {
         if (this.#_dataBase === null)
             await this.openRepository();
 
-        const trunsaction = this.#_dataBase.transaction(this.#_nameStorage, "readwrite");
+        const trunsaction = this.#_dataBase.transaction(nameStorage, "readwrite");
 
-        const storage = trunsaction.objectStore(this.#_nameStorage);
+        const storage = trunsaction.objectStore(nameStorage);
 
-        let request = storage.get(entity.Id);
+        const request = storage.get(entity.Id);
 
         request.onsuccess = (event) => 
             {
@@ -136,44 +147,59 @@ export class IndexDBRepository
                     storage.add(entity);
             }
         
+        request.onerror = (event) =>
+            {
+                console.error(`Error: failed add DtoModel: ${event.target.error}`)
+            }
+        
     }
 
     /**
      * Вернуть сущность
-     * @param {string} id
-     * @returns {EntityDto} Возвращает сущность или null если такой сущности нету.
+     * @param {string} id - уникальный id сущности
+     * @param {string} nameStorage - название сущности
+     * @returns {Promise<EntityDto>} Возвращает сущность или null если такой сущности нету.
      */
-    async getEntity(id)
+    async getEntity(id, nameStorage)
     {
-        const transaction = this.#_dataBase.transaction(this.#_nameStorage, "readonly");
+        return new Promise((resolve, reject) => 
+        {
+            const transaction = this.#_dataBase.transaction(nameStorage, "readonly");
 
-        const storyObject = transaction.objectStore(this.#_nameStorage);
-        
-        let entity = null;
+            const storyObject = transaction.objectStore(nameStorage);
+            
+            let entity = null;
 
-        let getRequest = storyObject.get(id);
+            const getRequest = storyObject.get(id);
 
-        getRequest.onsuccess = (event) => 
-            {
-                entity = event.target.result;
-            }
-        
-        return entity;
+            getRequest.onsuccess = (event) => 
+                {
+                    entity = event.target.result;
+                    resolve(entity);
+                }
+
+            getRequest.onerror = (event) => 
+                {
+                    console.error(`Error: failed get entity ${event.target.error}`);
+                    reject();
+                }   
+        })
     }
 
     /**
      * Возврщает все сущности из хранилища
-     * @returns 
+     * @param {string} nameStorage - название хранилища 
+     * @returns {Promise<Array>}
      */
-    async getAllEntities()
+    async getAllEntities(nameStorage)
     {
         return new Promise((resolve, reject) => 
             {
-                const transaction = this.#_dataBase.transaction(this.#_nameStorage, "readonly");
+                const transaction = this.#_dataBase.transaction(nameStorage, "readonly");
 
-                const storyObject = transaction.objectStore(this.#_nameStorage);
+                const storyObject = transaction.objectStore(nameStorage);
 
-                let getRequest = storyObject.getAll();
+                const getRequest = storyObject.getAll();
 
                 getRequest.onsuccess = (event) => 
                     { 
@@ -181,6 +207,40 @@ export class IndexDBRepository
                         
                         resolve(entitiesStorage);
                     };
+                
+                getRequest.onerror = (event) => 
+                    {
+                        console.error(`Error: failed get all entities - ${event.target.error}`);
+                    }
             })
+    }
+
+    /**
+     * Очищает хранилище
+     * @param {string} nameStorage 
+     * @returns {Promise<void>}
+     */
+    async clearStorage(nameStorage)
+    {
+        return new Promise((resolve, reject) => 
+            {
+                const transaction = this.#_dataBase.transaction(nameStorage, "readwrite");
+
+                const storage = transaction.objectStore(nameStorage);
+
+                const clearRequest = storage.clear();
+
+                clearRequest.onsuccess = (event) => 
+                    {
+                        console.log(`Successfully clear storage ${nameStorage} | ${event.target.result}`);
+                        resolve();
+                    }
+                
+                clearRequest.onerror = (event) => 
+                    {
+                        console.error(`ERROR: failed clear storage - ${nameStorage} | ${event.target.result}`);
+                        reject();
+                    }
+            });
     }
 }

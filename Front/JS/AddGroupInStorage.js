@@ -10,6 +10,16 @@ import { IAddModelIntoStorage } from "./IAddModelIntoStorage.js"
  */
 export class AddGroupInStorage extends IAddModelIntoStorage
 {
+    #nameDataBase = "";
+
+    #nameStorage = "";
+
+    constructor(newNameDataBase, newNameStorage = "")
+    {
+        super();
+        this.#nameDataBase = newNameDataBase;
+        this.#nameStorage = newNameStorage;
+    }
     /**
      * Добавляет все сущности в хранилище Groups
      * @param {Array<GroupModelDto>} content 
@@ -19,14 +29,14 @@ export class AddGroupInStorage extends IAddModelIntoStorage
         if (content == null)
             return;
 
-        let indexDb = new IndexDBRepository("Groups");
-        await indexDb.openRepository();
+        let indexDb = new IndexDBRepository;
+        await indexDb.openRepository(this.#nameDataBase, this.#nameStorage);
         
         if (Array.isArray(content))
         {
             content.forEach(async group => 
                 {
-                    await indexDb.addDtoModel(group);
+                    await indexDb.addDtoModel(group, this.#nameStorage);
                 });
         }
     }

@@ -81,7 +81,9 @@ export class Section
      */
     async updateSection(url)
     {
+        // Удаляем старый рендер
         this.setSection();
+
         await this.loadSection(url);
         await this.fillTable();
         await this.addAllEvents();

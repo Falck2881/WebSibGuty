@@ -17,13 +17,16 @@ const namesStorage = new Array("Users", "Groups", "Facultets");
 var tables = new TableOfSections();
 let section = new Section(tables.fillUsersTable);
 
-section.setMethodAddedModelInStorage(new AddUserInStorage);
+section.setMethodAddedModelInStorage(new AddUserInStorage("WebSibguty", "Users"));
 await section.loadContentSection("/user/table/content");
 await section.loadSection("Sections/Users.html");
 await section.fillTable();
 await section.addAllEvents();
 
-const methodsAddedModel = new Array(new AddUserInStorage, new AddGroupInStorage, new AddFacultetInStorage);
+const methodsAddedModel = new Array(
+    new AddUserInStorage("WebSibguty","Users"),
+            new AddGroupInStorage("WebSibguty","Groups"),
+            new AddFacultetInStorage("WebSibguty", "Facultets"));
 
 const urlSections = new Array("Sections/Users.html", "Sections/Groups.html", "Sections/Facultets.html");
 
@@ -47,10 +50,10 @@ for(let index = 0; index < urlContentSections.length; ++index)
             section.setMethodAddedModelInStorage(methodAddedModel);
             await section.setMethodFill(newMethodfill);
             
-            const indexDB = new IndexDBRepository(nameStorage);
-            await indexDB.openRepository();
+            const indexDB = new IndexDBRepository;
+            await indexDB.openRepository("WebSibguty", nameStorage);
 
-            let contentSection = await indexDB.getAllEntities();
+            let contentSection = await indexDB.getAllEntities(nameStorage);
             
             if (Array.isArray(contentSection) && contentSection.length > 0){
                 section.setContentSection(contentSection);

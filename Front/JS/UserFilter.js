@@ -116,10 +116,10 @@ export class UserFilter
     }
 
     /**
-     * Возвращает DTO модель пользователя
-     * @returns DTO модель пользователья
+     * Возвращает выбранные фильтры
+     * @returns DTO модель пользователя
      */
-    async getUserDtoModel()
+    async getSelectedFilters()
     {
         try{
             await this.#saveInputsOfValuesFromFieldsOfInput();
@@ -133,5 +133,30 @@ export class UserFilter
         }
     
         return this.#toUserModelDto();
+    }
+
+    /**
+     * Проверяет пуст ли фильтр
+     * @returns true - все поля пусты, false - некоторые (или все) поля НЕ пусты.
+     */
+    isEmptyFilters()
+    {
+        let result = false;
+
+        let fieldFilters = new Array(this.#CashSize, this.#FirstName, 
+            this.#Gender, this.#LastName, this.#Military);
+
+        for(let i = 0; i < fieldFilters.length; ++i)
+        {
+            if (fieldFilters[i] === "")
+                result = true;
+            else
+            {
+                result = false;
+                break;
+            }
+        }
+        
+        return result;
     }
 }
