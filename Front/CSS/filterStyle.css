@@ -12,7 +12,7 @@
     width: 100%;
     margin-top: 1.5%;
     margin-right: 2%;
-    height: 100px;
+    height: 130px;
     overflow-y: scroll;
 }
 
@@ -83,9 +83,23 @@
 }
 
 .li-filter{
-    display: inline-flex;
+    display: inline-grid;
     margin-bottom: 1.5%;
     margin-right: 1.5%;
 }
 
+.dropdown-filter{
+    background: white;
+    border-style: solid;
+    border-width: 1px;
+    width: auto;
+    height: 100px;
+    overflow-y: scroll;
+}
+
+.element-dropdown-filter{
+    padding-left: 5px;
+    border-bottom-style: solid;
+    border-bottom-width: thin
+}
 

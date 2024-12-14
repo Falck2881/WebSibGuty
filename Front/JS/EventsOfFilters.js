@@ -293,7 +293,151 @@ async function findFacultetsInStorage(facultetModelsStorage, selectedFilters)
     return facultetModels;
 }
 
+/**
+ * Ищет имена пользователей по подстроке 
+ */
+async function findFirstNamesUsersBySubstring()
+{
+    let elementListFilterFirstName = document.getElementById("Filter_FirstName");
 
+    if (elementListFilterFirstName === null)
+        return;
+
+    let filterFirstName = document.getElementById("one_Filter_FirstName");
+
+    if (filterFirstName === null)
+        return;
+
+    let value = String(filterFirstName.value);
+
+    let getMatchingLines = (user) => 
+    {
+        let firstName = String(user.FirstName);
+        return firstName.startsWith(value) ? firstName : "";
+    }
+
+    let namesUsers = await findCoincidencesWithNamesUsers(getMatchingLines);
+
+    if (Array.isArray(namesUsers) && namesUsers.length === 0)
+        return;
+
+    let idDropDown = "one_DropDown_Filter_FirstName";
+
+    let dropDownWithNamesUsers = createDropDownWithNamesUsers(namesUsers, idDropDown);
+
+    // Если значение ввода в фильтр пустое, то нужно удалить ранее созданное контекстное меню с именами пользователей
+    if (value.length === 0 || value.length > 0)
+        {
+            let dropDownWithNamesUsers = document.getElementById(idDropDown);
+            
+            if (dropDownWithNamesUsers != null)
+                elementListFilterFirstName.removeChild(dropDownWithNamesUsers);
+        }
+    
+    // Добавляем выпадающий список, только если был ввод значений со стороны пользователя
+    if (value.length > 0)
+        elementListFilterFirstName.appendChild(dropDownWithNamesUsers);
+}
+
+/**
+ * Ищет совпадения с именами пользователей
+ * @param {Function<UserModelDto>} getMatchingLines - функция для получения совпадающей строки
+ * @returns {Array<string>} - Возвращает имена совпавших пользователей 
+ */
+async function findCoincidencesWithNamesUsers(getMatchingLines)
+{
+    let indexDB = new IndexDBRepository;
+    await indexDB.openRepository("WebSibguty");
+
+    let userModels = (await indexDB.getAllEntities("Users")).map(user => new UserModelDto(user));
+
+    if (Array.isArray(userModels) && userModels.length === 0)
+        return;
+
+    let namesUsers = new Array;
+
+    userModels.forEach(user => 
+        {
+            if (user instanceof UserModelDto)
+            {
+                let line = String(getMatchingLines(user));
+                if (line.length > 0)
+                    namesUsers.push(line);
+            }
+        });
+
+    return namesUsers;
+}
+
+/**
+ * Создает выпадающий список c именами пользователей
+ * @param {Array<string>} namesUsers - массив имён/фамилий ползователей
+ * @param {string} idTeg - id тега
+ */
+function createDropDownWithNamesUsers(namesUsers, idTeg)
+{
+    let dropDown = document.createElement("div");
+    dropDown.className = "dropdown-filter";
+    dropDown.setAttribute("id", idTeg);
+
+    namesUsers.forEach( name => 
+        {
+            let elementDropDown = document.createElement("p");
+            elementDropDown.className = "element-dropdown-filter";
+            elementDropDown.appendChild(document.createTextNode(name));
+            dropDown.appendChild(elementDropDown);
+        });
+
+    return dropDown;
+}
+
+/**
+ * Ищет фамилии пользователей по подстроке
+ */
+async function findLastNamesUsersBySubstring() 
+{
+    let elementListFilterLastName = document.getElementById("Filter_LastName");
+
+    if (elementListFilterLastName === null)
+        return;
+
+    let filterLastName = document.getElementById("two_Filter_LastName");
+
+    if (filterLastName === null)
+        return;
+
+    let value = String(filterLastName.value);
+
+    let getMatchingLines = (user) => 
+        {
+            let lastName = String(user.LastName);
+            return lastName.startsWith(value) ? lastName : "";
+        }
+
+    let namesUsers = await findCoincidencesWithNamesUsers(getMatchingLines);
+
+    if (Array.isArray(namesUsers) && namesUsers.length === 0)
+        return;
+
+    let idDropDown = "two_DropDown_Filter_LastName";
+
+    let dropDownWithNamesUsers = createDropDownWithNamesUsers(namesUsers, idDropDown);
+
+    if (value.length === 0 || value.length > 0)
+    {
+        let dropDownLastNames = document.getElementById(idDropDown);
+
+        if (dropDownLastNames != null)
+            elementListFilterLastName.removeChild(dropDownLastNames);
+    }
+
+    if (value.length > 0)
+        elementListFilterLastName.appendChild(dropDownWithNamesUsers);
+}
+
+// Сохроняем ссылки на функции 
+window.findLastNamesUsersBySubstring = findLastNamesUsersBySubstring;
+window.findFirstNamesUsersBySubstring = findFirstNamesUsersBySubstring;
 window.findByFiltersOfUsers = findByFiltersOfUsers;
 window.findByFiltersOfGroups = findByFiltersOfGroups;
 window.findByFiltersOfFacultets = findByFiltersOfFacultets;

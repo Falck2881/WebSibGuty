@@ -112,7 +112,6 @@ export class BuilderFilter
      * 
      * @param {HTMLElement} filter 
      * @param {HTMLFieldSetElement} fieldsetFilter 
-     * @returns {HTMLInputElement}
      */
     async #createFilter(filter, fieldsetFilter)
     {
@@ -272,8 +271,27 @@ export class BuilderFilter
         }
         
         input.type = "text";
+
         let idValue = filter.id + '_' + filter.value
         input.setAttribute("id", idValue);
+
+        let idValueField = idValue + '_' + "Field";
+        fieldsetFilter.setAttribute("id", idValueField);
+
+        this.#addEventToFilters(fieldsetFilter);
+
         fieldsetFilter.appendChild(input);
+    }
+
+    /**
+     * Добавляет события к фильтрам
+     * @param {HTMLFieldSetElement} fieldsetFilter 
+     */
+    async #addEventToFilters(fieldsetFilter)
+    {
+        if (fieldsetFilter.id === "one_Filter_FirstName_Field")
+            fieldsetFilter.addEventListener("keyup", window.findFirstNamesUsersBySubstring);
+        else if(fieldsetFilter.id === "two_Filter_LastName_Field")
+            fieldsetFilter.addEventListener("keyup", window.findLastNamesUsersBySubstring);
     }
 }
