@@ -102,8 +102,8 @@ async function findUsersInStorage(usersStorage, selectedFilters)
     let userModels = new Array;
 
     usersStorage.forEach(user => {
-            if ((selectedFilters.FirstName === "" || selectedFilters.FirstName === user.FirstName) &&
-                (selectedFilters.LastName === "" || selectedFilters.LastName === user.LastName) &&
+            if ((selectedFilters.FirstName === "" || String(user.FirstName).startsWith(selectedFilters.FirstName)) &&
+                (selectedFilters.LastName === "" || String(user.LastName).startsWith(selectedFilters.LastName)) &&
                 (selectedFilters.Gender === "" || selectedFilters.Gender === user.Gender) &&
                 (selectedFilters.CashSize === "" || selectedFilters.CashSize === user.CashSize) &&
                 (selectedFilters.Military === "") || selectedFilters.Military === user.Military)
