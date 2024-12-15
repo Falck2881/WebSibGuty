@@ -112,7 +112,7 @@ async function findUsersInStorage(usersStorage, selectedFilters)
                     userModels.push(userModelDto);
                 }
     });
-    console.log(userModels);
+
     return userModels;
 }
 

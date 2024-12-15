@@ -290,8 +290,24 @@ export class BuilderFilter
     async #addEventToFilters(fieldsetFilter)
     {
         if (fieldsetFilter.id === "one_Filter_FirstName_Field")
-            fieldsetFilter.addEventListener("keyup", window.findFirstNamesUsersBySubstring);
+        {
+            fieldsetFilter.addEventListener("keyup", async (event)=> 
+                {
+                    if (event.key === "Enter")
+                        await window.findByFiltersOfUsers();
+                    else
+                        await window.findFirstNamesUsersBySubstring();
+                });
+        }
         else if(fieldsetFilter.id === "two_Filter_LastName_Field")
-            fieldsetFilter.addEventListener("keyup", window.findLastNamesUsersBySubstring);
+        {
+            fieldsetFilter.addEventListener("keyup", async (event) => 
+                {
+                    if (event.key === "Enter")
+                        await window.findByFiltersOfUsers();
+                    else
+                        await window.findLastNamesUsersBySubstring();
+                });
+        }
     }
 }

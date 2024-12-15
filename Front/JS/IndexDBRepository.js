@@ -238,7 +238,7 @@ export class IndexDBRepository
                 
                 clearRequest.onerror = (event) => 
                     {
-                        console.error(`ERROR: failed clear storage - ${nameStorage} | ${event.target.result}`);
+                        console.error(`ERROR: failed clear storage - ${nameStorage} | ${event.target.error}`);
                         reject();
                     }
             });

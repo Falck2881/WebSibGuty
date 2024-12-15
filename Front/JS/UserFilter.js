@@ -63,7 +63,7 @@ export class UserFilter
 
         if (selectGenderFilter != null)
         {
-            console.log(`Filter_User_Gender - ${selectGenderFilter.value}`);
+            console.log(`Был выбран фильтр под ID - Filter_User_Gender - ${selectGenderFilter.value}`);
             this.#Gender = selectGenderFilter.value;
         }
 
@@ -72,7 +72,7 @@ export class UserFilter
 
         if (selectMilitaryFilter != null)
         {
-            console.log(`Filter_User_Military - ${selectMilitaryFilter.value}`);
+            console.log(`Был выбран фильтр под ID - Filter_User_Military - ${selectMilitaryFilter.value}`);
             this.#Military = selectMilitaryFilter.value;
         }
 
@@ -81,7 +81,7 @@ export class UserFilter
 
         if (selectCashSizeFilter != null )
         {
-            console.log(`Filtet_User_CashSize - ${selectCashSizeFilter.value}`);
+            console.log(`Был выбран фильтр под ID - Filtet_User_CashSize - ${selectCashSizeFilter.value}`);
             this.#CashSize = selectCashSizeFilter.value;
         }
     }
@@ -101,7 +101,7 @@ export class UserFilter
 
         if (firstNameFilter != null)
         {
-            console.log(`one_Filter_FirstName - ${firstNameFilter.value}`);
+            console.log(`Был выбран фильтр под ID - one_Filter_FirstName - ${firstNameFilter.value}`);
             this.#FirstName = firstNameFilter.value;
         }
 
@@ -110,7 +110,7 @@ export class UserFilter
 
         if (lastNameFilter != null)
         {
-            console.log(`two_Filter_LastName - ${lastNameFilter.value}`);
+            console.log(`Был выбран фильтр под ID - two_Filter_LastName - ${lastNameFilter.value}`);
             this.#LastName = lastNameFilter.value;
         }
     }
