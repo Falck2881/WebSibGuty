@@ -72,6 +72,9 @@
     background-color: #5c8c97;
 }
 
+.find-by-filters:active{
+    background-color: #dadcdb;
+}
 
 .filter_checkboxes label:hover {
     background-color: #a49f90;
@@ -102,4 +105,3 @@
     border-bottom-style: solid;
     border-bottom-width: thin
 }
-

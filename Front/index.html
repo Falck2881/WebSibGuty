@@ -10,7 +10,10 @@
     <link rel="stylesheet" href="Image/logo.png"/>
     <title>Название страницы</title>
 </head>
-<body class="main-body">
+<body class="main-body" id="app-body">
+    <div class="header-tollbar">
+        <button class="button-add-record" onclick="openRecordManagementCard()"></button>
+    </div>
     <div class="main-nav-div">
         <div class="logo"></div>
         <nav class="main-navigation">
@@ -26,6 +29,6 @@
     <script type="module" src="JS/EventsOfCommon.js"></script>
     <script type="module" src="JS/EventsOfFilters.js"></script>
     <script type="module" src="JS/EventsOfColumn.js"></script>
-    <script type="module" src="JS/EventsOfGlobal.js"></script>
+    <script type="module" src="JS/EventsOfTollbar.js"></script>
 </body>
 </html>
