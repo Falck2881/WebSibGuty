@@ -237,7 +237,7 @@
     left: 25%;
     width: 100vh;
     height: 50vh;
-    background-color: bisque;
+    background-color: #e7e7e7;
     border-radius: 5px;
     border-width: 2px;
     border-style: solid;
@@ -304,6 +304,32 @@
 * Стиль активации для кнопки закрывающая карточку
 */
 .close-сard-button:active{
+    background-color: #dadcdb;
+}
+
+/*
+* Стиль для кнопки "назад" в карточке
+*/
+.back-card-button{
+    width: 32px;
+    height: 32px;
+    margin: 4px;
+    background-image: url("../Image/back.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+/*
+* Стиль для кнопки "назад" в карточке (при наведении)
+*/
+.back-card-button:hover{
+    background-color: #5c8c97;
+}
+
+/*
+* Стиль для кнопки "назад" в карточке (при активации)
+*/
+.back-card-button:active{
     background-color: #dadcdb;
 }
 

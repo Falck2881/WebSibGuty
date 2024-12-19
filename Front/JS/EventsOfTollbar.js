@@ -1,7 +1,7 @@
 "use strict"
 //@ts-check
 
-import {createBlockingBackground, removeBlockingBackgraund} from "./CommonUIElemnts.js" 
+import {createBlockingBackground} from "./CommonUIElemnts.js" 
 import { RecordsManagementCard } from "./RecordsManagementCard.js";
 
 /**
@@ -16,13 +16,4 @@ async function openRecordManagementCard()
     
 }
 
-/**
- * Закрывает карточку управления записями 
- */
-async function closeRecordsManagementCard()
-{
-    removeBlockingBackgraund();
-}
-
 window.openRecordManagementCard = openRecordManagementCard;
-window.closeRecordsManagementCard = closeRecordsManagementCard;
