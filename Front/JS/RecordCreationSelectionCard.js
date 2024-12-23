@@ -10,13 +10,14 @@ export class RecordCreationSelectionCard
     {
         let selectionCard = document.createElement("div");
         selectionCard.className = "records-management-card";
+        selectionCard.id = "recordCreationSelectionCard";
 
         let backButton = document.createElement("button");
         backButton.className = "back-card-button";
         backButton.addEventListener('click', () => 
             {
-                window.closeRecordsManagementCard();
-                window.backToRecordsManagementCard();
+                window.closeRecordCreationSelectionCard();
+                window.openRecordManagementCard();
             });
         selectionCard.appendChild(backButton);
         
@@ -33,6 +34,11 @@ export class RecordCreationSelectionCard
         let addUserAction = document.createElement("button");
         addUserAction.className = "records-management-button";
         addUserAction.appendChild(document.createTextNode("Пользователя"));
+        addUserAction.addEventListener('click', () => 
+            {
+                window.closeRecordCreationSelectionCard();
+                window.openRecordUserCard();
+            })
 
         let addGroupAction = document.createElement("button");
         addGroupAction.className = "records-management-button";
@@ -50,5 +56,15 @@ export class RecordCreationSelectionCard
         blockManagmentAction.appendChild(addFacultetAction);
 
         return blockManagmentAction;
+    }
+
+    /**
+     * Удаляет карточку 
+     */
+    removeCard()
+    {
+        let card = document.getElementById("recordCreationSelectionCard");
+
+        card.remove();
     }
 }

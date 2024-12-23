@@ -327,6 +327,130 @@
 }
 
 /*
+* Стиль для карточки пользователя 
+*/
+.record-user-card{
+    position: relative;
+    width: 120vh;
+    height: max-content;
+    top: 15vh;
+    left: 40vh;
+    background-color: #e7e7e7;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 5px;
+}
+
+/*
+* Кнопка отправить
+*/
+.cancel-button{
+    position: relative;
+    width: 100px;
+    height: 30px;
+    float: left;
+}
+
+/*
+* Стиль навидения для кнопки отмены
+*/
+.cancel-button:hover{
+    background-color: #5c8c97;
+}
+
+
+/*
+* Стиль активации для кнопки отправить
+*/
+.cancel-button:active{
+    background-color: #dadcdb;
+}
+
+/*
+* Кнопка отправить
+*/
+.send-button{
+    position: relative;
+    width: 100px;
+    height: 30px;
+    float: right;
+}
+
+/*
+* Стиль навидения для кнопки отправить
+*/
+.send-button:hover{
+    background-color: #5c8c97;
+
+}
+
+/*
+* Стиль активации для кнопки отправить
+*/
+.send-button:active{
+    background-color: #dadcdb;
+
+}
+
+/*
+* Размещение кнопок выполняющие различные действия
+*/
+.layout-buttons-making-actions{
+    margin: 2%;
+    display: flow-root;
+}
+
+/*
+* Заголовок карточки
+*/
+.header-card{
+    margin-left: 40%;
+}
+
+/*
+* Размещает вертикально поля карточки
+*/
+.layout-vertical-field-card{
+    position: relative;
+    display: contents;
+}
+
+/*
+* Поле для заполнения данных
+*/
+.field{
+    clear:both; 
+    text-align:right; 
+    line-height:25px;
+    margin: 2%;
+}
+
+/*
+* Название поля ввода
+*/
+
+.label-field{
+    float:left; 
+    padding-right:10px;
+}
+
+/*
+* Поле ввода
+*/
+.input-field{
+    width: 500px;
+    height: 30px;
+}
+
+/*
+* Поле выбора
+*/
+.selection-field{
+    width: 300px;
+    height: 30px;
+}
+
+/*
 * Стиль для кнопки "назад" в карточке (при активации)
 */
 .back-card-button:active{

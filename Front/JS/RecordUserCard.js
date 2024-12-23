@@ -1,18 +1,52 @@
 "use strict"
 //@ts-check
 
+/**
+ * Класс представляет из себя карточку в которой заполняют различные поля запси пользователя 
+ */
 export class RecordUserCard
 {
+    /**
+     * Создаёт карточку
+     */
     create()
     {
         let recordUserCard = document.createElement("div");
-        recordUserCard.className = "";
+        recordUserCard.className = "record-user-card";
+        recordUserCard.id = "recordUserCard";
 
         recordUserCard.appendChild( this.#createHeaderCard());
 
+        recordUserCard.appendChild(document.createElement('hr'));
+        
         recordUserCard.appendChild(this.#createFieldsInputs());
 
+        let backButton = document.createElement("button");
+        backButton.className = "cancel-button";
+        backButton.appendChild(document.createTextNode("Отмена"));
+        backButton.addEventListener('click', () => 
+            {
+                window.closeRecordUserCard();
+                window.openRecordCreationSelectionCard();
+            });
+        
+        let sendButton = document.createElement("button");
+        sendButton.className = "send-button";
+        sendButton.appendChild(document.createTextNode("Отправить"));
+        sendButton.addEventListener('click', () => 
+            {
+                
+            });    
+        
+        let layoutButtons = document.createElement("div");
+        layoutButtons.className = "layout-buttons-making-actions";
+        layoutButtons.appendChild(backButton);
+        layoutButtons.appendChild(sendButton);
 
+        recordUserCard.appendChild(layoutButtons)
+        
+        let blockingBackgraund = document.getElementById("blocking-background");
+        blockingBackgraund.appendChild(recordUserCard);
     }
 
     /**
@@ -22,7 +56,7 @@ export class RecordUserCard
     #createHeaderCard()
     {
         let headerCard = document.createElement("h4");
-        headerCard.className = "";
+        headerCard.className = "header-card";
         headerCard.appendChild(document.createTextNode("Создание карточки пользователя."));
 
         return headerCard;
@@ -35,39 +69,52 @@ export class RecordUserCard
     #createFieldsInputs()
     {
         let layoutVertical = document.createElement("div");
-        layoutVertical.className = "";
+        layoutVertical.className = "layout-vertical-field-card";
 
+        let fieldFirstName = document.createElement("div");
+        fieldFirstName.className = "field";
         let fieldInputFirstNameUser = document.createElement("input");
         let labelFirstNameUser = document.createElement("label");
         labelFirstNameUser.appendChild(document.createTextNode("Имя:"));
         labelFirstNameUser.htmlFor = "fieldFirstNameUser_1";
+        labelFirstNameUser.className = "label-field";
 
         fieldInputFirstNameUser.type = "text";
         fieldInputFirstNameUser.id = "fieldFirstNameUser_1";
-        fieldInputFirstNameUser.className = "";
-        labelFirstNameUser.appendChild(fieldInputFirstNameUser);
+        fieldInputFirstNameUser.className = "input-field";
 
-        layoutVertical.appendChild(labelFirstNameUser);
+        fieldFirstName.appendChild(labelFirstNameUser);
+        fieldFirstName.appendChild(fieldInputFirstNameUser);
 
+        layoutVertical.appendChild(fieldFirstName);
+
+        let fieldLastName = document.createElement("div");
+        fieldLastName.className = "field";
         let fieldInputLastNameUser = document.createElement("input");
         let labelLastNameUser = document.createElement("label");
         labelLastNameUser.appendChild(document.createTextNode("Фамилия:"));
         labelLastNameUser.htmlFor = "fieldLastNameUser_2";
+        labelLastNameUser.className = "label-field";
 
         fieldInputLastNameUser.type = "text";
         fieldInputLastNameUser.id = "fieldLastNameUser_2";
-        fieldInputLastNameUser.className = "";
-        labelLastNameUser.appendChild(fieldInputLastNameUser);
+        fieldInputLastNameUser.className = "input-field";
 
-        layoutVertical.appendChild(labelLastNameUser);
+        fieldLastName.appendChild(labelLastNameUser);
+        fieldLastName.appendChild(fieldInputLastNameUser);
 
+        layoutVertical.appendChild(fieldLastName);
+
+        let fieldGenderUser = document.createElement("div");
+        fieldGenderUser.className = "field";
         let selectGenderUser = document.createElement("select");
         let labelGenderUser = document.createElement("label");
         labelGenderUser.appendChild(document.createTextNode("Пол:"));
         labelGenderUser.htmlFor = "fieldGenderUser_3";
+        labelGenderUser.className = "label-field";
 
         selectGenderUser.id = "fieldGenderUser_3";
-        selectGenderUser.className = "";
+        selectGenderUser.className = "selection-field";
 
         let menOption = document.createElement("option");
         menOption.appendChild(document.createTextNode("Муж."));
@@ -76,69 +123,100 @@ export class RecordUserCard
         let womenOption = document.createElement("option");
         womenOption.appendChild(document.createTextNode("Жен."));
         selectGenderUser.appendChild(womenOption);
-        labelGenderUser.appendChild(selectGenderUser);
 
-        layoutVertical.appendChild(labelGenderUser);
+        fieldGenderUser.appendChild(labelGenderUser);
+        fieldGenderUser.appendChild(selectGenderUser);
 
+        layoutVertical.appendChild(fieldGenderUser);
+
+        let fieldNumberPhoneUser = document.createElement("div");
+        fieldNumberPhoneUser.className = "field";
         let filedInputNumberPhoneUser = document.createElement("input");
         let labelNumberPhoneUser = document.createElement("label");
         labelNumberPhoneUser.appendChild(document.createTextNode("Номер телефона:"));
         labelNumberPhoneUser.htmlFor = "fieldNumberPhoneUser_4";
+        labelNumberPhoneUser.className = "label-field";
 
         filedInputNumberPhoneUser.type = "text";
-        filedInputNumberPhoneUser.class = "";
+        filedInputNumberPhoneUser.className = "input-field";
         filedInputNumberPhoneUser.id = "fieldNumberPhoneUser_4";
-        labelNumberPhoneUser.appendChild(filedInputNumberPhoneUser)
 
-        layoutVertical.appendChild(labelNumberPhoneUser);
+        fieldNumberPhoneUser.appendChild(labelNumberPhoneUser);
+        fieldNumberPhoneUser.appendChild(filedInputNumberPhoneUser);
 
-        let selectedMillitoryUser = document.createElement("section");
+        layoutVertical.appendChild(fieldNumberPhoneUser);
+
+        let fieldMillitoryUser = document.createElement("div");
+        fieldMillitoryUser.className = "field";
+        let selectedMillitoryUser = document.createElement("select");
         let labelMillitaryUser = document.createElement("label");
         labelMillitaryUser.appendChild(document.createTextNode("Военнообязанность:"));
         labelMillitaryUser.htmlFor = "fieldMillitaryUser_5";
+        labelMillitaryUser.className = "label-field";
 
         selectedMillitoryUser.id = "fieldMillitaryUser_5";
-        selectedMillitoryUser.className = "";
+        selectedMillitoryUser.className = "selection-field";
 
         let millitaryServiceOption = document.createElement("option");
         millitaryServiceOption.appendChild(document.createTextNode("Военнообязанный"));
         selectedMillitoryUser.appendChild(millitaryServiceOption);
 
         let releasedFromMilitaryServiceOption = document.createElement("option");
-        releasedFromMilitaryServiceOption.appendChild(document.createAttribute("Освобождён"));
+        releasedFromMilitaryServiceOption.appendChild(document.createTextNode("Освобождён"));
         selectedMillitoryUser.appendChild(releasedFromMilitaryServiceOption);
 
         let postponementFromMilitaryServiceOption = document.createElement("option");
-        postponementFromMilitaryServiceOption.appendChild(document.createAttribute("Отсрочка"));
+        postponementFromMilitaryServiceOption.appendChild(document.createTextNode("Отсрочка"));
         selectedMillitoryUser.appendChild(postponementFromMilitaryServiceOption);
-        labelMillitaryUser.appendChild(selectedMillitoryUser);
 
-        layoutVertical.appendChild(labelMillitaryUser);
+        fieldMillitoryUser.appendChild(labelMillitaryUser);
+        fieldMillitoryUser.appendChild(selectedMillitoryUser);
 
+        layoutVertical.appendChild(fieldMillitoryUser);
+
+        let fieldCashSizeUser = document.createElement("div");
+        fieldCashSizeUser.className = "field";
         let filedInputCashSizeUser = document.createElement("input");
         let labelCashSizeUser = document.createElement("label");
         labelCashSizeUser.appendChild(document.createTextNode("Выплаты:"));
         labelCashSizeUser.htmlFor = "fieldCashSizeUser_6";
+        labelCashSizeUser.className = "label-field";
 
         filedInputCashSizeUser.type = "text";
-        filedInputCashSizeUser.class = "";
+        filedInputCashSizeUser.className = "input-field";
         filedInputCashSizeUser.id = "fieldCashSizeUser_6";
-        labelCashSizeUser.appendChild(filedInputCashSizeUser);
 
-        layoutVertical.appendChild(labelCashSizeUser);
+        fieldCashSizeUser.appendChild(labelCashSizeUser);
+        fieldCashSizeUser.appendChild(filedInputCashSizeUser);
 
+        layoutVertical.appendChild(fieldCashSizeUser);
+
+        let fieldAddGroupUser = document.createElement("div");
+        fieldAddGroupUser.className = "field";
         let filedInputAddGroupUser = document.createElement("input");
         let labelAddGroupUser = document.createElement("label");
         labelAddGroupUser.appendChild(document.createTextNode("Зачислить в группу:"));
         labelAddGroupUser.htmlFor = "fieldAddGroupUser_7";
+        labelAddGroupUser.className = "label-field";
 
         filedInputAddGroupUser.type = "text";
-        filedInputAddGroupUser.class = "";
+        filedInputAddGroupUser.className = "input-field";
         filedInputAddGroupUser.id = "fieldAddGroupUser_7";
-        labelAddGroupUser.appendChild(filedInputCashSizeUser);
 
-        layoutVertical.appendChild(labelAddGroupUser);
+        fieldAddGroupUser.appendChild(labelAddGroupUser);
+        fieldAddGroupUser.appendChild(filedInputAddGroupUser);
+
+        layoutVertical.appendChild(fieldAddGroupUser);
 
         return layoutVertical;
+    }
+
+    /**
+     * Удаляет карточку пользователя 
+     */
+    removeCard()
+    {
+        let card = document.getElementById("recordUserCard");
+        card.remove();
     }
 }

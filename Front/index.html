@@ -12,7 +12,12 @@
 </head>
 <body class="main-body" id="app-body">
     <div class="header-tollbar">
-        <button class="button-add-record" onclick="openRecordManagementCard()"></button>
+        <button class="button-add-record" onclick="(() => 
+        { 
+            createBlockingBackground(); 
+            openRecordManagementCard();
+        })()">
+        </button>
     </div>
     <div class="main-nav-div">
         <div class="logo"></div>
@@ -29,7 +34,6 @@
     <script type="module" src="JS/EventsOfCommon.js"></script>
     <script type="module" src="JS/EventsOfFilters.js"></script>
     <script type="module" src="JS/EventsOfColumn.js"></script>
-    <script type="module" src="JS/EventsOfTollbar.js"></script>
     <script type="module" src="JS/EventsFromCard.js"></script>
 </body>
 </html>
