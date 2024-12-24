@@ -342,9 +342,9 @@
 }
 
 /*
-* Кнопка отправить
+* Левая кнопка
 */
-.cancel-button{
+.left-button{
     position: relative;
     width: 100px;
     height: 30px;
@@ -352,24 +352,24 @@
 }
 
 /*
-* Стиль навидения для кнопки отмены
+* Стиль навидения для левой кнопки
 */
-.cancel-button:hover{
+.left-button:hover{
     background-color: #5c8c97;
 }
 
 
 /*
-* Стиль активации для кнопки отправить
+* Стиль активации для левой кнопки
 */
-.cancel-button:active{
+.left-button:active{
     background-color: #dadcdb;
 }
 
 /*
-* Кнопка отправить
+* Правая кнопка
 */
-.send-button{
+.right-button{
     position: relative;
     width: 100px;
     height: 30px;
@@ -379,7 +379,7 @@
 /*
 * Стиль навидения для кнопки отправить
 */
-.send-button:hover{
+.right-button:hover{
     background-color: #5c8c97;
 
 }
@@ -387,7 +387,7 @@
 /*
 * Стиль активации для кнопки отправить
 */
-.send-button:active{
+.right-button:active{
     background-color: #dadcdb;
 
 }
@@ -455,6 +455,21 @@
 */
 .back-card-button:active{
     background-color: #dadcdb;
+}
+
+/*
+* Модальное окно 
+*/
+.modal-window{
+    position: relative;
+    top: 10vh;
+    left: 10vh;
+    display: flow-root;
+    border-style: solid;
+    border-width: 2px;
+    width: 100vh;
+    height: max-content;
+    background-color: #e7e7e7;
 }
 
 /* Стили для мобильных устройств */

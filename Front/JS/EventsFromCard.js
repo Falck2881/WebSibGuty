@@ -7,23 +7,25 @@ import {RecordsManagementCard} from "./RecordsManagementCard.js"
 import {RecordUserCard} from "./RecordUserCard.js"
 
 /**
- * Закрывает карточку управления записями 
+ * Закрывает карточку управления записями
+ * @param {string} id  
  */
-function closeBlockingBackground()
+function closeBlockingBackground(id)
 {
-    let blockingBackgraund = new BlockingBackground;
+    let blockingBackgraund = new BlockingBackground(id);
 
     blockingBackgraund.removeBlockingBackgraund();
 }
 
 /**
  * Создаёт блокирующий задний фон
+ * @param {string} id 
  */
-function createBlockingBackground()
+function createBlockingBackground(id)
 {
-    let blockingBackgraund = new BlockingBackground;
+    let blockingBackgraund = new BlockingBackground(id);
 
-    blockingBackgraund.createBlockingBackground();
+    blockingBackgraund.createBlockingBackground("app-body");
 }
 
 window.closeBlockingBackground = closeBlockingBackground;
@@ -94,3 +96,15 @@ function closeRecordUserCard()
 
 window.openRecordUserCard = openRecordUserCard;
 window.closeRecordUserCard = closeRecordUserCard;
+
+/**
+ * События кнопки - отправить запись
+ */
+
+function sendRecord(card)
+{
+    if (card instanceof RecordUserCard)
+        card.sendRecord();
+}
+
+window.sendRecord = sendRecord;

@@ -1,11 +1,23 @@
 "use strict"
 //@ts-check
 
+import {UserModelDto} from "./Entities.js" 
+import { MessageWindow } from "./MessageWindow.js";
+import {RegExpressions} from "./RegExpressions.js"
+import { BuildMessageWithErrorSendRecordUser } from "./BuildMessageWithErrorSendRecordUser.js";
+import { BlockingBackground } from "./BlockingBackgraund.js";
+
 /**
  * Класс представляет из себя карточку в которой заполняют различные поля запси пользователя 
  */
 export class RecordUserCard
 {
+    #userModelDto;
+
+    constructor()
+    {
+        this.#userModelDto = new UserModelDto;
+    }
     /**
      * Создаёт карточку
      */
@@ -22,7 +34,7 @@ export class RecordUserCard
         recordUserCard.appendChild(this.#createFieldsInputs());
 
         let backButton = document.createElement("button");
-        backButton.className = "cancel-button";
+        backButton.className = "left-button";
         backButton.appendChild(document.createTextNode("Отмена"));
         backButton.addEventListener('click', () => 
             {
@@ -31,11 +43,11 @@ export class RecordUserCard
             });
         
         let sendButton = document.createElement("button");
-        sendButton.className = "send-button";
+        sendButton.className = "right-button";
         sendButton.appendChild(document.createTextNode("Отправить"));
         sendButton.addEventListener('click', () => 
             {
-                
+                window.sendRecord(this);
             });    
         
         let layoutButtons = document.createElement("div");
@@ -45,7 +57,7 @@ export class RecordUserCard
 
         recordUserCard.appendChild(layoutButtons)
         
-        let blockingBackgraund = document.getElementById("blocking-background");
+        let blockingBackgraund = document.getElementById("blocking-backgraund-main-menu");
         blockingBackgraund.appendChild(recordUserCard);
     }
 
@@ -191,22 +203,22 @@ export class RecordUserCard
 
         layoutVertical.appendChild(fieldCashSizeUser);
 
-        let fieldAddGroupUser = document.createElement("div");
-        fieldAddGroupUser.className = "field";
-        let filedInputAddGroupUser = document.createElement("input");
-        let labelAddGroupUser = document.createElement("label");
-        labelAddGroupUser.appendChild(document.createTextNode("Зачислить в группу:"));
-        labelAddGroupUser.htmlFor = "fieldAddGroupUser_7";
-        labelAddGroupUser.className = "label-field";
+        // let fieldAddGroupUser = document.createElement("div");
+        // fieldAddGroupUser.className = "field";
+        // let filedInputAddGroupUser = document.createElement("input");
+        // let labelAddGroupUser = document.createElement("label");
+        // labelAddGroupUser.appendChild(document.createTextNode("Зачислить в группу:"));
+        // labelAddGroupUser.htmlFor = "fieldAddGroupUser_7";
+        // labelAddGroupUser.className = "label-field";
 
-        filedInputAddGroupUser.type = "text";
-        filedInputAddGroupUser.className = "input-field";
-        filedInputAddGroupUser.id = "fieldAddGroupUser_7";
+        // filedInputAddGroupUser.type = "text";
+        // filedInputAddGroupUser.className = "input-field";
+        // filedInputAddGroupUser.id = "fieldAddGroupUser_7";
 
-        fieldAddGroupUser.appendChild(labelAddGroupUser);
-        fieldAddGroupUser.appendChild(filedInputAddGroupUser);
+        // fieldAddGroupUser.appendChild(labelAddGroupUser);
+        // fieldAddGroupUser.appendChild(filedInputAddGroupUser);
 
-        layoutVertical.appendChild(fieldAddGroupUser);
+        // layoutVertical.appendChild(fieldAddGroupUser);
 
         return layoutVertical;
     }
@@ -218,5 +230,85 @@ export class RecordUserCard
     {
         let card = document.getElementById("recordUserCard");
         card.remove();
+    }
+
+    /**
+     * Подготовить входные данные
+     * @returns {UserModelDto}
+     */
+    #prepareEnteredData()
+    {
+        let fieldInputFirstName = document.getElementById("fieldFirstNameUser_1");
+
+        if (fieldInputFirstName instanceof HTMLInputElement)
+            this.#userModelDto.FirstName = fieldInputFirstName.value;
+
+        let fieldInputLastName = document.getElementById("fieldLastNameUser_2");
+
+        if (fieldInputLastName instanceof HTMLInputElement)
+            this.#userModelDto.LastName = fieldInputLastName.value;
+
+        let fieldGenderUser = document.getElementById("fieldGenderUser_3");
+
+        if (fieldGenderUser instanceof HTMLSelectElement)
+            this.#userModelDto.Gender = fieldGenderUser.value;
+
+        let fieldInputNumberPhone = document.getElementById("fieldNumberPhoneUser_4")
+
+        if (fieldInputNumberPhone instanceof HTMLInputElement)
+            this.#userModelDto.PhoneNumber = fieldInputNumberPhone.value;
+
+        let fieldMillitoryUser = document.getElementById("fieldMillitaryUser_5");
+
+        if (fieldMillitoryUser instanceof HTMLSelectElement)
+            this.#userModelDto.Military = fieldMillitoryUser.value;
+        
+        let fieldCashSizeUser = document.getElementById("fieldCashSizeUser_6");
+
+        if (fieldCashSizeUser instanceof HTMLInputElement)
+            this.#userModelDto.CashSize = fieldCashSizeUser.value;
+    }
+
+    /**
+     * Проверяет все ли поля заполненны 
+     * @returns true - все поля заполненны; false - какие то поля не заполненны
+     */
+    #isAllFieldsFilledIn()
+    {
+        let fields = new Array(this.#userModelDto.FirstName, this.#userModelDto.LastName,
+            this.#userModelDto.Gender, this.#userModelDto.Military, this.#userModelDto.PhoneNumber, this.#userModelDto.CashSize);
+
+        let result = false;
+
+        let regExp = new RegExpressions;
+
+        fields.forEach(field => 
+            {
+                result = regExp.isFieldFilled(field) ? true : false;
+            });
+        
+        return result;
+    }
+
+    /**
+     * Отправить созданную запись пользователя
+     */
+    sendRecord()
+    {
+        this.#prepareEnteredData();
+
+        if (this.#isAllFieldsFilledIn())
+        {
+            console.log("Successufilly");
+        }
+        else
+        {
+            let blockingBackgraundRecordUserCard = new BlockingBackground("blocking-background-for-record-user-card");
+            blockingBackgraundRecordUserCard.createBlockingBackground("recordUserCard");
+
+            let builder = new BuildMessageWithErrorSendRecordUser(this.#userModelDto);
+            let modalWindow = new MessageWindow(builder);
+            modalWindow.show();
+        }
     }
 }

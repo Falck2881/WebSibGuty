@@ -14,7 +14,7 @@
     <div class="header-tollbar">
         <button class="button-add-record" onclick="(() => 
         { 
-            createBlockingBackground(); 
+            createBlockingBackground('blocking-backgraund-main-menu'); 
             openRecordManagementCard();
         })()">
         </button>
@@ -30,6 +30,7 @@
         </nav>
     </div>
     <div class="content-page" id="content"></div>
+    <script src="https://cdn.jsdelivr.net/npm/uuid/dist/umd/uuidv4.min.js"></script>
     <script type="module" src="JS/ManagmentNavigationMainMenu.js"></script>
     <script type="module" src="JS/EventsOfCommon.js"></script>
     <script type="module" src="JS/EventsOfFilters.js"></script>

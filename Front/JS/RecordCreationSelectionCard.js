@@ -24,7 +24,7 @@ export class RecordCreationSelectionCard
         let actionsCard = this.#creationBlockAction();
         selectionCard.appendChild(actionsCard);
 
-        let backgroundFonScreen = document.getElementById("blocking-background");
+        let backgroundFonScreen = document.getElementById("blocking-backgraund-main-menu");
         backgroundFonScreen.appendChild(selectionCard);
     }
 

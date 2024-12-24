@@ -21,13 +21,13 @@ export class RecordsManagementCard
         
         let closeCardAction = document.createElement("button");
         closeCardAction.className = "close-сard-button";
-        closeCardAction.addEventListener("click", () => window.closeBlockingBackground());
+        closeCardAction.addEventListener("click", () => window.closeBlockingBackground("blocking-backgraund-main-menu"));
         recordManagementCard.appendChild(closeCardAction);
 
         let blockManagmentAction = this.#createBlockAction();
         recordManagementCard.appendChild(blockManagmentAction);
 
-        let backgroundFonScreen = document.getElementById("blocking-background");
+        let backgroundFonScreen = document.getElementById("blocking-backgraund-main-menu");
         backgroundFonScreen.appendChild(recordManagementCard);
     }
 

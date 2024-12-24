@@ -6,16 +6,28 @@
  */
 export class BlockingBackground
 {
+    #id = "";
+
+    /**
+     * 
+     * @param {string} id 
+     */
+    constructor(id)
+    {
+        this.#id = id;
+    }
+
     /**
      * Создаёт элемент div который блокирует задний фон экрана 
+     * @param {string} idParent 
      */
-    createBlockingBackground()
+    createBlockingBackground(idParent)
     {
         let blockingBackgraund = document.createElement("div");
         blockingBackgraund.className = "blocking-background";
-        blockingBackgraund.id = "blocking-background";
+        blockingBackgraund.id = this.#id;
 
-        let appBody = document.getElementById("app-body");
+        let appBody = document.getElementById(idParent);
         appBody.appendChild(blockingBackgraund);
     }
 
@@ -24,7 +36,7 @@ export class BlockingBackground
      */
     removeBlockingBackgraund()
     {
-        let blockingBackgraund = document.getElementById("blocking-background");
+        let blockingBackgraund = document.getElementById(this.#id);
 
         blockingBackgraund.remove();
     }
