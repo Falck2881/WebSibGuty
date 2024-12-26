@@ -1,4 +1,5 @@
 using EFContextLib;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,5 +46,41 @@ public class UserController: Controller
         var resultOfSelecion = await filter.FilterOut(user);
 
         return Ok(resultOfSelecion);
+    }
+
+    [HttpPost]
+    [Route("table/add/record_user")]
+    public async Task<IActionResult> AddUser([FromBody] UserModelDto user)
+    {
+        if (user is null)
+            return new NotFoundObjectResult(new {Message = "Ошибка 404: переданный объект клиента равен null"});
+
+        if (_userContext is not UserContext userContext)
+            return new JsonResult(new {Message = "Ошибка 502: Контекст не соответствует типу"});
+
+        user.Id = Guid.NewGuid().ToString();
+
+        var userModel = new UserModel()
+        {
+            Id = user.Id,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Gender = user.Gender,
+            Password = "empty",
+            DataBirth = "empty",
+            Login = "empty",
+            Military = user.Military,
+            CashSize = user.CashSize,
+            AvarangeScore = 0,
+            IdGroup = "empty",
+            PhoneNumber = user.PhoneNumber,
+            SubjectName = "Гость",
+            TypeName = nameof(UserModel)
+        };
+
+        await userContext.AddAsync(userModel);
+        await userContext.SaveChangesAsync();
+
+        return Ok(new {Message = "Успешно"});
     }
 }

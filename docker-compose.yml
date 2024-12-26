@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  front:
+    build:
+      context: ./Front
+      dockerfile: Dockerfile
+    image: front-image:1.0
+    container_name: frontCont
+    volumes:
+      - ./Front:/app
+    networks:
+      - web_sibguty_net
+    
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    image: backend-image:1.0
+    container_name: backendCont
+    volumes:
+      - ./Backend:/app
+    networks:
+      - web_sibguty_net
+  
+  apache_gateway:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: apache-gateway-image:1.0
+    container_name: apacheGatewayCont
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/usr/local/apache2/htdocs
+    networks:
+      - web_sibguty_net
+
+networks:
+  web_sibguty_net:
+    driver: bridge

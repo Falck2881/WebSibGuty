@@ -1092,6 +1092,7 @@
       "outputPath": "/home/falcon/ProjectC#/WebSibGuty/Backend/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
+        "/home/falcon/ProjectC#/WebSibGuty/Backend/nuget.config",
         "/home/falcon/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
