@@ -10,7 +10,7 @@
 *.userosscache
 *.sln.docstates
 # Игнорируем папку с Deploy
-#Deploy/
+Deploy/
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
