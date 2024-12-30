@@ -73,3 +73,4 @@
 /WebSibguty/obj/Debug/net8.0/linux-x64/Backend.pdb
 /WebSibguty/obj/Debug/net8.0/linux-x64/Backend.genruntimeconfig.cache
 /WebSibguty/obj/Debug/net8.0/linux-x64/ref/Backend.dll
+/home/falcon/ProjectC#/WebSibGuty/Backend/bin/Debug/net8.0/linux-x64/nuget.config

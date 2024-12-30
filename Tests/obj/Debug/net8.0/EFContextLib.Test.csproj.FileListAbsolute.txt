@@ -230,3 +230,4 @@
 /home/falcon/ProjectC#/WebSibGuty/Tests/TestEFContexts/obj/Debug/net8.0/EFContextLib.Test.pdb
 /home/falcon/ProjectC#/WebSibGuty/Tests/TestEFContexts/obj/Debug/net8.0/EFContextLib.Test.genruntimeconfig.cache
 /home/falcon/ProjectC#/WebSibGuty/Tests/TestEFContexts/obj/Debug/net8.0/ref/EFContextLib.Test.dll
+/home/falcon/ProjectC#/WebSibGuty/Tests/bin/Debug/net8.0/nuget.config

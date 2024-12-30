@@ -26,7 +26,7 @@ public class UserContextTest
             DataBirth = DateTime.Now.ToString(),
             FirstName = "FirstTest",
             Gender = "men",
-            id = Guid.NewGuid().ToString(),
+            Id = Guid.NewGuid().ToString(),
             IdGroup = Guid.NewGuid().ToString(),
             LastName = "last",
             Login = "login",

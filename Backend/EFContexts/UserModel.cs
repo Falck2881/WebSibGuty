@@ -6,6 +6,9 @@ public class UserModel
     [Column("id")]
     public String Id {get; set;} = null!;
 
+    [Column("idfacultet")]
+    public String IdFacultet {get;set;} = null!;  
+
     [Column("login")]
     public String Login {get; set;} = null!;
 

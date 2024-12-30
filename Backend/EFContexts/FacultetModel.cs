@@ -6,6 +6,9 @@ public class FacultetModel
     [Column("id")]
     public String Id {get; set;} = null!;
 
+    [Column("iduser")]
+    public String IdUser {get; set;} = null!;
+
     [Column("facultetname")]
     public String FacultetName {get; set;} = null!;
 

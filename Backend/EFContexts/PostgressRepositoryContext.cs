@@ -1,3 +1,4 @@
+using System.Collections;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFContextLib;
@@ -13,7 +14,7 @@ public class PostgressRepositoryContext<TEntity>: DbContext
     }
 
     /// <summary>
-    /// Создаёт модель сущности в таблице БД
+    /// Добавляет модель в <see cref="SetEntities"/>
     /// </summary>
     /// <param name="entityModel">Модель сущности которую создаём в таблице БД</param>
     public async Task CreateAsync(TEntity entityModel, CancellationToken cancellationToken = default)
@@ -22,7 +23,7 @@ public class PostgressRepositoryContext<TEntity>: DbContext
     }
 
     /// <summary>
-    /// Возврщает все найденные сущности в наборе <see cref="IRepositoryContext.Set"/>.
+    /// Возврщает все найденные сущности в наборе <see cref="SetEntities"/>.
     /// </summary>
     /// <typeparam name="TEntity">Сущность в наборе</typeparam>
     /// <returns></returns>
@@ -32,19 +33,26 @@ public class PostgressRepositoryContext<TEntity>: DbContext
     }
 
     /// <summary>
-    /// Начинает отслеживать модель сущности в контексте.
-    /// 
-    /// Если модель сущности существует в таблице БД, то обновляет её.
-    /// Иначе создаёт её.
+    /// Отслеживает изменения сущности в <see cref="SetEntities"/> 
     /// </summary>
-    /// <param name="entityModel">Модель сущности которую обновляем в таблице, или создаём её.</param>
+    /// <param name="entityModel">Модель сущности которую отслеживаем и обновляем в таблице.</param>
     public void Update(TEntity entityModel)
     {
         SetEntities.Update(entityModel);
     }
 
     /// <summary>
-    /// Удаляет модель сущности из таблицы
+    /// Перегруженный метод
+    /// Отслеживает изменения коллекции сущностей в <see cref="SetEntities"/> 
+    /// </summary>
+    /// <param name="entities">Обновлённые сущности которые нужно отслеживать и обновить в таблице</param>
+    public void Update(IEnumerable<TEntity> entities)
+    {
+        SetEntities.UpdateRange(entities);
+    }
+
+    /// <summary>
+    /// Удаляет модель сущности из <see cref="SetEntities"/> 
     /// </summary>
     /// <param name="entityModel"></param>
     public void Delete(TEntity entityModel)
