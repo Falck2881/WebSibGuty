@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using EFContextLib;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -82,5 +83,35 @@ public class UserController: Controller
         await userContext.SaveChangesAsync();
 
         return Ok(new {Message = "Успешно"});
+    }
+
+    [HttpPost]
+    [Route("table/update/record_user")]
+    public async Task<IActionResult> UpdateUser([FromBody] UserModelDto user)
+    {
+        if (user is null)
+            return new NotFoundObjectResult(new {Message = "Ошибка 404: переданный объект клиента равен null"});
+
+        if (_userContext is not UserContext userContext)
+            return new JsonResult(new {Message = "Ошибка 502: Контекст не соответствует типу"});
+
+        var userModel = await userContext.Find(user.Id);
+
+        if (userModel is null)
+            return new JsonResult(new { Message = "Ошибка 502: Указанный пользователь отсутствует в системе"});
+            
+        userModel.Id = user.Id;
+        userModel.FirstName = user.FirstName;
+        userModel.LastName = user.LastName;
+        userModel.Gender = user.Gender;
+        userModel.Military = user.Military;
+        userModel.CashSize = user.CashSize;
+        userModel.DataBirth = user.DataBirth;
+        userModel.PhoneNumber = user.PhoneNumber;
+
+        userContext.Update(userModel);
+        await userContext.SaveAsync();
+        
+        return Ok(new {Message = "Запись успешно обновлена!"});
     }
 }

@@ -21,7 +21,7 @@
             </div>
         </div>
     
-        <button class="find-by-filters" id="findEntities" onclick="findByFiltersOfUsers()"> </button>
+        <button class="find-by-filters" onclick="findByFiltersOfUsers()"> </button>
         
         <ul class="select-filters" id="selected-filter-Of-section"></ul>
     </div>
@@ -48,14 +48,4 @@
             </tbody>
         </table>
     </div>
-    <script>
-        let allActions = window.AllActions;
-
-        if (allActions !== null && allActions instanceof Array)
-        {
-            allActions.push("filters_section");
-            allActions.push("findEntities");
-            allActions.push("sort-cashsize");
-        }
-    </script>
 </div>

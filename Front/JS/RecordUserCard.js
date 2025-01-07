@@ -102,6 +102,7 @@ export class RecordUserCard
         updateButton.addEventListener('click', async () => 
             {
                 await window.updateRecord(this);
+                window.closeBlockingBackground("blocking-backgraund-main-menu");
             });    
         
         let layoutButtons = document.createElement("div");
@@ -115,6 +116,7 @@ export class RecordUserCard
         blockingBackgraund.appendChild(recordUserCard);
 
         await this.#setValuesInFiledsSelectedRecord(idUser);
+        this.#userModelDto.Id = idUser;
     }
 
     /**
@@ -402,6 +404,21 @@ export class RecordUserCard
         httpRequest.addContentTypeJson();
 
         return await httpRequest.PostAsync(this.#url_addRecordUser, this.#userModelDto);
+    }
+
+    /**
+     * Обновляет запись пользователя
+     */
+    async updateRecord()
+    {
+        let httpRequest = new HttpRequest;
+        httpRequest.addContentTypeJson();
+
+        let indexDB = new IndexDBRepository;
+        await indexDB.openRepository("WebSibguty", "Users");
+        await indexDB.updateEntity(this.#userModelDto, "Users");
+
+        return await httpRequest.PostAsync(this.#url_updateRecordUser, this.#userModelDto);
     }
 
     /**

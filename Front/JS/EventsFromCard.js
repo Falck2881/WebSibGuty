@@ -145,6 +145,23 @@ async function sendRecord(card)
 }
 
 /**
+ * Событие кнопки обновить запись пользователя
+ */
+async function updateRecord(card)
+{
+    if (card instanceof RecordUserCard)
+        {   
+            card.prepareEnteredData();
+    
+            let response = await card.updateRecord();
+            let object = await response.json();
+            let successfullyMessage = new SuccessfullyMessage(object.Message);
+            let modalWindow = new MessageWindow(successfullyMessage);
+            modalWindow.show();
+        }
+}
+
+/**
 * Создаёт модальное окно с ошибкой при отправки записи пользователя
 * @param {UserModelDto} userModelDto  
 */
@@ -159,3 +176,4 @@ function createModalWindowWithErrorSendRecordUser(userModelDto)
 }
 
 window.sendRecord = sendRecord;
+window.updateRecord = updateRecord;

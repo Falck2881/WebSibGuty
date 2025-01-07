@@ -7,16 +7,17 @@
 export class ActionMenuHelper
 {
 
+    #actionMenu = "action-menu";
     /**
      * Создаёт меню действий по работе с пользователем.
      * @param {string} parentId 
-     * @param {string} idActionMenu 
+     * @param {string} idUser 
      */
-    createMenuOfActionsByWorkingWithUser(parentId, idActionMenu)
+    createMenuOfActionsByWorkingWithUser(parentId, idUser)
     {
         let actionMenu = document.createElement("div");
         actionMenu.className = "action-menu";
-        actionMenu.id = idActionMenu;
+        actionMenu.id = this.#actionMenu;
         
         let openCardUser = document.createElement("p");
         openCardUser.className = "item-action-menu"
@@ -24,7 +25,7 @@ export class ActionMenuHelper
         openCardUser.addEventListener('click', async () => 
             {
                 window.createBlockingBackground('blocking-backgraund-main-menu'); 
-                await window.openRecordUserCard(actionMenu.id);
+                await window.openRecordUserCard(idUser);
             });
         actionMenu.appendChild(openCardUser);
 
@@ -37,9 +38,11 @@ export class ActionMenuHelper
         parentActionElement.appendChild(actionMenu);
     }
 
-    removeMenuOfActionsByWorkingWithUser(idActionMenu)
+    removeMenuOfActionsByWorkingWithUser()
     {
-        let actionMenu = document.getElementById(idActionMenu);
-        actionMenu.remove();
+        let actionMenu = document.getElementById(this.#actionMenu);
+        
+        if (actionMenu !== null)
+            actionMenu.remove();
     }
 }

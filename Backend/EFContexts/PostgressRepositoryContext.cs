@@ -23,6 +23,16 @@ public class PostgressRepositoryContext<TEntity>: DbContext
     }
 
     /// <summary>
+    /// Ищет сущность и возвращает результат
+    /// </summary>
+    /// <param name="id">id сущности</param>
+    /// <returns>Возвращает сущность</returns>
+    public async Task<TEntity> Find(String id)
+    {
+        return await SetEntities.FindAsync(id) ?? default;
+    }
+
+    /// <summary>
     /// Возврщает все найденные сущности в наборе <see cref="SetEntities"/>.
     /// </summary>
     /// <typeparam name="TEntity">Сущность в наборе</typeparam>

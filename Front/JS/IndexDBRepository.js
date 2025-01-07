@@ -243,4 +243,33 @@ export class IndexDBRepository
                     }
             });
     }
+
+    /**
+     * Обновляет запись в хранилище
+     * @param {EntityDto} entity - сущность которую добавляем
+     * @param {string} nameStorage - названия хранилища 
+     */
+    async updateEntity(entity, nameStorage)
+    {
+        return new Promise((resolve, reject) => 
+            {
+                const transaction = this.#_dataBase.transaction(nameStorage, "readwrite");
+
+                let storage = transaction.objectStore(nameStorage);
+
+                let request = storage.put(entity);
+
+                request.onsuccess = () =>
+                {
+                    console.log(`Successfully update entity in storage ${nameStorage} `);
+                    resolve();
+                };
+
+                request.onerror = () =>
+                {
+                    console.error(`ERROR: failed update entity in storage - ${nameStorage} `);
+                    reject();
+                }
+            });
+    }
 }

@@ -34,7 +34,7 @@ export function TableOfSections()
                     // и возвращаемся в начало цикла
                     if (isColumnToAction(j))
                     {
-                        let columnAction = createColumnToAction(content[i].Id);
+                        let columnAction = createColumnToAction(content[i].Id, i);
                         row.appendChild(columnAction);
                         continue;
                     }
@@ -134,29 +134,29 @@ function isColumnToAction(index)
 
 /**
  * Возвращает созданную колонку действия
- * @param {number} idUser - id записи пользователя 
+ * @param {string} idUser - id записи пользователя
+ * @param {number} index  
  */
-function createColumnToAction(idUser)
+function createColumnToAction(idUser, index)
 {
     let columnAction = document.createElement("td");
     columnAction.className = "td-action-column-content";
-    columnAction.id = "pressed-action";
-    window.AllActions.push(columnAction.id);
+    columnAction.id = "pressed-action" + "_" + index;
 
     let isShow = true;
 
     columnAction.addEventListener('click', () =>
     {
-        let idActionMenu = idUser;
         let actionMenuHelper = new ActionMenuHelper;
         if (isShow)
         {
-            actionMenuHelper.createMenuOfActionsByWorkingWithUser(columnAction.id, idActionMenu);
+            actionMenuHelper.removeMenuOfActionsByWorkingWithUser();
+            actionMenuHelper.createMenuOfActionsByWorkingWithUser(columnAction.id, idUser);
             isShow = false;
         }
         else{
             isShow = true;
-            actionMenuHelper.removeMenuOfActionsByWorkingWithUser(idActionMenu);
+            actionMenuHelper.removeMenuOfActionsByWorkingWithUser();
         }
     });
 
