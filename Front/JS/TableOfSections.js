@@ -1,6 +1,7 @@
 "use strict";
 //@ts-check
 import {UserModelDto, GroupModelDto, FacultetModelDto } from "./Entities.js";
+import {ActionMenuHelper} from './ActionMenuHelper.js';
 
 /**
  * 
@@ -27,7 +28,17 @@ export function TableOfSections()
                     content[i].Gender, content[i].DataBirth, content[i].PhoneNumber, content[i].CashSize,
                     content[i].Military);
 
-                for (let j = 0; j < user.length; ++j) {
+                for (let j = -1; j < user.length; ++j) 
+                {
+                    // Если это колонка действия то выполняем инициализацию все состояний для рендера 
+                    // и возвращаемся в начало цикла
+                    if (isColumnToAction(j))
+                    {
+                        let columnAction = createColumnToAction(content[i].Id);
+                        row.appendChild(columnAction);
+                        continue;
+                    }
+
                     let columnInRow = document.createElement("td");
                     columnInRow.className = "td-content";
                     let contentColumn = document.createTextNode(user[j]);
@@ -109,4 +120,45 @@ export function TableOfSections()
         fillGroupsTable: fillGroupsTable,
         fillFacultetTable: fillFacultetTable
     };
+}
+
+/**
+ * Проверяет, если индекс 0 то возвращает true,
+ * если же index отличен от 0 то возвращает false
+ * @param {number} index 
+ */
+function isColumnToAction(index)
+{
+    return index === -1;
+}
+
+/**
+ * Возвращает созданную колонку действия
+ * @param {number} idUser - id записи пользователя 
+ */
+function createColumnToAction(idUser)
+{
+    let columnAction = document.createElement("td");
+    columnAction.className = "td-action-column-content";
+    columnAction.id = "pressed-action";
+    window.AllActions.push(columnAction.id);
+
+    let isShow = true;
+
+    columnAction.addEventListener('click', () =>
+    {
+        let idActionMenu = idUser;
+        let actionMenuHelper = new ActionMenuHelper;
+        if (isShow)
+        {
+            actionMenuHelper.createMenuOfActionsByWorkingWithUser(columnAction.id, idActionMenu);
+            isShow = false;
+        }
+        else{
+            isShow = true;
+            actionMenuHelper.removeMenuOfActionsByWorkingWithUser(idActionMenu);
+        }
+    });
+
+    return columnAction;
 }

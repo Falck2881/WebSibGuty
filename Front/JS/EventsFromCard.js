@@ -79,24 +79,44 @@ window.closeRecordCreationSelectionCard = closeRecordCreationSelectionCard;
 /**
  * Открывает карточку по созданию записи пользователя
  */
-function openRecordUserCard()
+function openCreateRecordUserCard()
 {
     let recordUserCard = new RecordUserCard;
 
-    recordUserCard.create();
+    recordUserCard.showCreateRecordUserCard();
 }
 
 /**
  * Закрывает карточку по созданию записи пользователя
  */
-function closeRecordUserCard()
+function closeCreateRecordUserCard()
 {
     let recordUserCard = new RecordUserCard;
 
     recordUserCard.removeCard();
 }
 
+/**
+ * Открывает кароточку пользователя
+ * @param {string} idUser - id пользователя 
+ */
+async function openRecordUserCard(idUser)
+{
+    let recordUserCard = new RecordUserCard;
+    await recordUserCard.showRecordUserCard(idUser);
+}
 
+/**
+ * Закрывает кароточку пользователя
+ */
+function closeRecordUserCard()
+{
+    let recordUserCard = new RecordUserCard;
+    recordUserCard.removeCard();
+}
+
+window.openCreateRecordUserCard = openCreateRecordUserCard;
+window.closeCreateRecordUserCard = closeCreateRecordUserCard;
 window.openRecordUserCard = openRecordUserCard;
 window.closeRecordUserCard = closeRecordUserCard;
 

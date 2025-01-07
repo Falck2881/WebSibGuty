@@ -4,6 +4,7 @@
 import {UserModelDto} from "./Entities.js" 
 import {RegExpressions} from "./RegExpressions.js"
 import {HttpRequest} from "./HttpRequest.js"
+import {IndexDBRepository} from "./IndexDBRepository.js"
 
 /**
  * Класс представляет из себя карточку в которой заполняют различные поля запси пользователя 
@@ -12,27 +13,31 @@ export class RecordUserCard
 {
     #userModelDto;
 
-    #hostName = "";
+    #url_addRecordUser = "";
+
+    #url_updateRecordUser= "";
 
     constructor()
     {
         this.#userModelDto = new UserModelDto;
 
         //для деплоя 
-        this.#hostName = "/api/user/table/add/record_user";
+        // this.#url_addRecordUser = "/api/user/table/add/record_user";
+        // this.#url_updateRecordUser = "/api/user/table/update/record_user";
         // для разработки
-        // this.#hostName = "http://localhost:5188/api/user/table/add/record_user";
+        this.#url_addRecordUser = "http://localhost:5188/api/user/table/add/record_user";
+        this.#url_updateRecordUser = "http://localhost:5188/api/user/table/update/record_user";
     }
     /**
-     * Создаёт карточку
+     * Показывает карточку по созданию записи пользователя
      */
-    create()
+    showCreateRecordUserCard()
     {
         let recordUserCard = document.createElement("div");
         recordUserCard.className = "record-user-card";
         recordUserCard.id = "recordUserCard";
 
-        recordUserCard.appendChild( this.#createHeaderCard());
+        recordUserCard.appendChild( this.#createHeaderCard("Создание карточки пользователя."));
 
         recordUserCard.appendChild(document.createElement('hr'));
         
@@ -43,7 +48,7 @@ export class RecordUserCard
         backButton.appendChild(document.createTextNode("Отмена"));
         backButton.addEventListener('click', () => 
             {
-                window.closeRecordUserCard();
+                window.closeCreateRecordUserCard();
                 window.openRecordCreationSelectionCard();
             });
         
@@ -67,14 +72,107 @@ export class RecordUserCard
     }
 
     /**
+     * Показывает карточку пользователя
+     * @param {string} idUser - id пользователя  
+     */
+    async showRecordUserCard(idUser)
+    {
+        let recordUserCard = document.createElement("div");
+        recordUserCard.className = "record-user-card";
+        recordUserCard.id = "recordUserCard";
+        
+        recordUserCard.appendChild( this.#createHeaderCard("Карточка пользователя"));
+
+        recordUserCard.appendChild(document.createElement('hr'));
+        
+        recordUserCard.appendChild(this.#createFieldsInputs());
+
+        let closeButton = document.createElement("button");
+        closeButton.className = "left-button";
+        closeButton.appendChild(document.createTextNode("Закрыть"));
+        closeButton.addEventListener('click', () => 
+            {
+                window.closeRecordUserCard();
+                window.closeBlockingBackground("blocking-backgraund-main-menu");
+            });
+        
+        let updateButton = document.createElement("button");
+        updateButton.className = "right-button";
+        updateButton.appendChild(document.createTextNode("Обновить"));
+        updateButton.addEventListener('click', async () => 
+            {
+                await window.updateRecord(this);
+            });    
+        
+        let layoutButtons = document.createElement("div");
+        layoutButtons.className = "layout-buttons-making-actions";
+        layoutButtons.appendChild(closeButton);
+        layoutButtons.appendChild(updateButton);
+
+        recordUserCard.appendChild(layoutButtons)
+        
+        let blockingBackgraund = document.getElementById("blocking-backgraund-main-menu");
+        blockingBackgraund.appendChild(recordUserCard);
+
+        await this.#setValuesInFiledsSelectedRecord(idUser);
+    }
+
+    /**
+     * Устанавливает значения в поля выбранной записи
+     * @param {string} idUser - id пользователя 
+     */
+    async #setValuesInFiledsSelectedRecord(idUser)
+    {
+
+        let indexDB = new IndexDBRepository;
+
+        await indexDB.openRepository("WebSibguty", "Users");
+
+        let entityDto  = await indexDB.getEntity(idUser, "Users");
+
+        let recordUser = Object.assign(new UserModelDto, entityDto);
+
+        let fieldInputFirstName = document.getElementById("fieldFirstNameUser_1");
+
+        if (fieldInputFirstName instanceof HTMLInputElement && recordUser instanceof UserModelDto)
+            fieldInputFirstName.value = entityDto === null ? "empty" : recordUser.FirstName;
+
+        let fieldInputLastName = document.getElementById("fieldLastNameUser_2");
+
+        if (fieldInputLastName instanceof HTMLInputElement)
+            fieldInputLastName.value = entityDto === null ? "empty" : recordUser.LastName;
+
+        let fieldGenderUser = document.getElementById("fieldGenderUser_3");
+
+        if (fieldGenderUser instanceof HTMLSelectElement)
+            fieldGenderUser.value = entityDto === null ? "empty" : recordUser.Gender;
+
+        let fieldInputNumberPhone = document.getElementById("fieldNumberPhoneUser_4")
+
+        if (fieldInputNumberPhone instanceof HTMLInputElement)
+            fieldInputNumberPhone.value = entityDto === null ? "empty" : recordUser.PhoneNumber;
+
+        let fieldMillitoryUser = document.getElementById("fieldMillitaryUser_5");
+
+        if (fieldMillitoryUser instanceof HTMLSelectElement)
+            fieldMillitoryUser.value = entityDto === null ? "empty" : recordUser.Military;
+        
+        let fieldCashSizeUser = document.getElementById("fieldCashSizeUser_6");
+
+        if (fieldCashSizeUser instanceof HTMLInputElement)
+            fieldCashSizeUser.value = entityDto === null ? "empty" : recordUser.CashSize;
+    }
+
+    /**
      * Создаёт заголовок и возвращает его
+     * @param {string} textHeader 
      * @returns Возвращает заголовок карточки
      */
-    #createHeaderCard()
+    #createHeaderCard(textHeader)
     {
         let headerCard = document.createElement("h4");
         headerCard.className = "header-card";
-        headerCard.appendChild(document.createTextNode("Создание карточки пользователя."));
+        headerCard.appendChild(document.createTextNode(textHeader));
 
         return headerCard;
     }
@@ -303,7 +401,7 @@ export class RecordUserCard
         let httpRequest = new HttpRequest;
         httpRequest.addContentTypeJson();
 
-        return await httpRequest.PostAsync(this.#hostName, this.#userModelDto);
+        return await httpRequest.PostAsync(this.#url_addRecordUser, this.#userModelDto);
     }
 
     /**

@@ -37,7 +37,7 @@ export class RecordCreationSelectionCard
         addUserAction.addEventListener('click', () => 
             {
                 window.closeRecordCreationSelectionCard();
-                window.openRecordUserCard();
+                window.openCreateRecordUserCard();
             })
 
         let addGroupAction = document.createElement("button");

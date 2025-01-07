@@ -30,9 +30,9 @@ export class Section
             this.#_fillTable = newMethodfillTable;
 
         //для деплоя 
-        this.#_hostName = "/api";
+        //this.#_hostName = "/api";
         // // для разработки
-        // this.#_hostName = "http://localhost:5188/api";
+        this.#_hostName = "http://localhost:5188/api";
     }
 
     /**

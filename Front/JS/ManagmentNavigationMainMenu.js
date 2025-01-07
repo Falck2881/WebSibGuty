@@ -38,7 +38,6 @@ const navigationsBySections = new Array(document.getElementById("nav-user-page")
                                         document.getElementById("nav-group-page"),
                                         document.getElementById("nav-facultet-page"))
 
-
 // В цикле закрепляем за элементами списка <li> (навигационная панель),
 // события мыши "click" и обработчики которые изменяют содержимое стр. 
 for(let index = 0; index < urlContentSections.length; ++index)

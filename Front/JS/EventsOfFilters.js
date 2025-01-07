@@ -55,9 +55,9 @@ async function findByFiltersOfUsers()
     if (Array.isArray(userModels) && userModels.length === 0)
     {
         // Для деплоя 
-        const controllerName = "/api/user/table/filtered_users_content";
+        //const controllerName = "/api/user/table/filtered_users_content";
         // Для разработки
-        // const controllerName = "http://localhost:5188/api/user/table/filtered_users_content";
+        const controllerName = "http://localhost:5188/api/user/table/filtered_users_content";
 
         let httpRequest = new HttpRequest;
         httpRequest.addContentTypeJson();
@@ -150,9 +150,9 @@ async function findByFiltersOfGroups()
     if (Array.isArray(groupModels) && groupModels.length === 0)
     {
         // Для деплоя 
-        const controllerName = "/api/group/table/filtered_groups_content";
+        // const controllerName = "/api/group/table/filtered_groups_content";
         // Для разработки
-        // const controllerName = "http://localhost:5188/api/group/table/filtered_groups_content"
+        const controllerName = "http://localhost:5188/api/group/table/filtered_groups_content"
 
         let httpRequest = new HttpRequest;
         httpRequest.addContentTypeJson();
@@ -238,9 +238,9 @@ async function findByFiltersOfFacultets()
     if (Array.isArray(facultetModels) && facultetModels.length === 0)
     {
         // Для деплоя 
-        const controllerName = "/api/facultet/table/filtered_facultets_content";
+        //const controllerName = "/api/facultet/table/filtered_facultets_content";
         // Для разработки
-        // const controllerName = "http://localhost:5188/api/facultet/table/filtered_facultets_content"
+        const controllerName = "http://localhost:5188/api/facultet/table/filtered_facultets_content"
 
         let httpRequest = new HttpRequest;
         httpRequest.addContentTypeJson();

@@ -131,6 +131,58 @@
     border-color: #313339; /* Нижняя граница для ячеек */
 }
 
+/*
+* Стиль для табличной колонки - действий  
+*/
+.td-action-column-content{
+
+    background-image: url("../Image/actions.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    padding: 2px;
+}
+
+.td-action-column-content:hover{
+    background-color: #5c8c97;
+}
+
+.td-action-column-content:active{
+    background-color: #dadcdb;
+}
+
+/*
+* Стиль меню действий 
+*/
+.action-menu{
+    position: fixed;
+    margin-left: 10vh;
+    background-color: #a49f90;
+    width: 15vh;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #313339;
+}
+
+/*
+* Элемент меню из модального окна действий
+*/
+.item-action-menu{
+    text-align: center;
+    padding: 10px;
+    user-select: none;
+    cursor: pointer;
+}
+
+.item-action-menu:hover{
+    background-color: #5c8c97;
+}
+
+.item-action-menu:active{
+    background-color: #dadcdb;
+}
+
 .th-cashsize{
     display: unset;
     border-style: none;
